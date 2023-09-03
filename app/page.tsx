@@ -19,15 +19,44 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import RoundedBox from "../components/nodes/RoundedBox";
+import Circle from "../components/nodes/Circle";
+import Square from "../components/nodes/Square";
+import { SquareIcon, CircleIcon, BoxIcon } from "@radix-ui/react-icons";
 
-const nodeTypes: NodeTypes = { roundedBox: RoundedBox };
+const nodeTypes: NodeTypes = {
+  roundedBox: RoundedBox,
+  circle: Circle,
+  square: Square,
+};
 
 export default function Home() {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [id, setId] = useState<number>(1);
 
-  const handleAddNode = () => {
+  const AddCircle = () => {
+    const currNodes = nodes;
+    const newNode = {
+      id: `${id}`,
+      type: "circle",
+      data: { label: "Input Node" },
+      position: { x: 250, y: 100 },
+    };
+    setNodes([newNode, ...currNodes]);
+    setId(id + 1);
+  };
+  const AddSquare = () => {
+    const currNodes = nodes;
+    const newNode = {
+      id: `${id}`,
+      type: "square",
+      data: { label: "Input Node" },
+      position: { x: 250, y: 100 },
+    };
+    setNodes([newNode, ...currNodes]);
+    setId(id + 1);
+  };
+  const AddRoundedBox = () => {
     const currNodes = nodes;
     const newNode = {
       id: `${id}`,
@@ -60,12 +89,15 @@ export default function Home() {
         className="flex flex-col space-y-3 pt-20 border-r-2 border-r-gray-300 p-10"
         id="tools-bar"
       >
-        <Button variant="outline" onClick={handleAddNode}>
-          + Node
+        <Button variant="outline" onClick={AddRoundedBox}>
+          <BoxIcon />
         </Button>
-        <Button variant="outline">Delete</Button>
-        <Button variant="outline">+ button 1 </Button>
-        <Button variant="outline">+ button 2</Button>
+        <Button variant="outline" onClick={AddSquare}>
+          <SquareIcon />
+        </Button>
+        <Button variant="outline" onClick={AddCircle}>
+          <CircleIcon />
+        </Button>
       </div>
       <ReactFlowCanvas
         nodes={nodes}
@@ -78,6 +110,7 @@ export default function Home() {
     </div>
   );
 }
+
 interface FlowProps {
   nodes: Node[];
   edges: Edge[];
