@@ -1,13 +1,90 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { ReactElement, useCallback, useState } from "react";
+import ReactFlow, {
+  Background,
+  Controls,
+  Edge,
+  Node,
+  addEdge,
+  FitViewOptions,
+  applyNodeChanges,
+  applyEdgeChanges,
+  OnNodesChange,
+  OnEdgesChange,
+  OnConnect,
+  MiniMap,
+} from "reactflow";
 import "reactflow/dist/style.css";
-import ReactFlow, { Background, Controls } from "reactflow";
 
 export default function Home() {
+  const [nodes, setNodes] = useState<Node[]>([]);
+  const [edges, setEdges] = useState<Edge[]>([]);
+  const [id, setId] = useState<number>(1);
+
+  const handleAddNode = () => {
+    const currNodes = nodes;
+    const newNode = {
+      id: `${id}`,
+      type: "input",
+      data: { label: "Input Node" },
+      position: { x: 250, y: 100 },
+    };
+    setNodes([newNode, ...currNodes]);
+    setId(id + 1);
+  };
+
+  const onNodesChange: OnNodesChange = useCallback(
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    [setNodes]
+  );
+
   return (
-    <div>
-      <ReactFlow>
-        <Background />
+    <div className="flex flex-row w-full">
+      <div
+        className="flex flex-col space-y-3 pt-20 border-r-2 border-r-gray-300 p-10"
+        id="tools-bar"
+      >
+        <Button variant="outline" onClick={handleAddNode}>
+          + Node
+        </Button>
+        <Button variant="outline">Delete</Button>
+        <Button variant="outline">+ button 1 </Button>
+        <Button variant="outline">+ button 2</Button>
+      </div>
+      <ReactFlowCanvas
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+      />
+    </div>
+  );
+}
+interface FlowProps {
+  nodes: Node[];
+  edges: Edge[];
+  onNodesChange: OnNodesChange;
+}
+
+function ReactFlowCanvas(props: FlowProps): ReactElement {
+  const { nodes, edges, onNodesChange } = props;
+  const fitViewOptions: FitViewOptions = {
+    padding: 10,
+  };
+
+  console.log("nodes", nodes);
+
+  return (
+    <div className="w-full h-[720px]">
+      <ReactFlow
+        nodes={nodes}
+        onNodesChange={onNodesChange}
+        fitView
+        fitViewOptions={fitViewOptions}
+      >
+        <Background className="bg-gray-100" size={2} />
         <Controls />
+        <MiniMap />
       </ReactFlow>
     </div>
   );
