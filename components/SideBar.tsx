@@ -12,18 +12,6 @@ export default function SideBar(): ReactElement {
       className="flex flex-col border-r-2 border-r-gray-300 h-screen w-2/12 bg-[#f6f6f6] p-4"
       id="side-bar"
     >
-      <Link href="/" className="flex items-center">
-        <Image
-          src={crumblogo}
-          alt="crumb"
-          className="w-5 object-scale-down"
-          width="64"
-          height="64"
-        />
-        <span className="text-gray-800 text-md lg:text-lg font-normal ml-4 font-satoshi">
-          Crumb
-        </span>
-      </Link>
       <div className="flex flex-col space-y-3 pt-20" id="tools-bar">
         <Button variant="outline">+ Node</Button>
         <Button variant="outline">Delete</Button>
