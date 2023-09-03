@@ -16,11 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <div className="flex flex-row w-full bg-[#f6f6f6]">
+      <div className="flex flex-row w-full bg-[#f6f6f6] id='page">
         <SideBar />
         <div className="flex flex-col w-full" id="main">
           <TopNav />
-          <div className="flex bg-[#f6f6f6]">{children}</div>
+          <div className="flex w-full h-full bg-[#f6f6f6]">{children}</div>
         </div>
       </div>
     </html>

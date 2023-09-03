@@ -1,12 +1,13 @@
 "use client";
-import "reactflow/dist/style.css";
+import { useState } from "react";
 import ReactFlow, { Background, Controls } from "reactflow";
+import "reactflow/dist/style.css";
 
 export default function Home() {
   return (
-    <div>
+    <div className="w-full h-full">
       <ReactFlow>
-        <Background />
+        <Background className="bg-gray-100" size={2} />
         <Controls />
       </ReactFlow>
     </div>
