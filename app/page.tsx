@@ -14,8 +14,13 @@ import ReactFlow, {
   OnEdgesChange,
   OnConnect,
   MiniMap,
+  DefaultEdgeOptions,
+  NodeTypes,
 } from "reactflow";
 import "reactflow/dist/style.css";
+import RoundedBox from "../components/nodes/RoundedBox";
+
+const nodeTypes: NodeTypes = { roundedBox: RoundedBox };
 
 export default function Home() {
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -26,7 +31,7 @@ export default function Home() {
     const currNodes = nodes;
     const newNode = {
       id: `${id}`,
-      type: "input",
+      type: "roundedBox",
       data: { label: "Input Node" },
       position: { x: 250, y: 100 },
     };
@@ -37,6 +42,16 @@ export default function Home() {
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     [setNodes]
+  );
+
+  const onEdgesChange: OnEdgesChange = useCallback(
+    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    [setEdges]
+  );
+
+  const onConnect: OnConnect = useCallback(
+    (connection) => setEdges((eds) => addEdge(connection, eds)),
+    [setEdges]
   );
 
   return (
@@ -56,6 +71,9 @@ export default function Home() {
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        nodeTypes={nodeTypes}
       />
     </div>
   );
@@ -64,21 +82,31 @@ interface FlowProps {
   nodes: Node[];
   edges: Edge[];
   onNodesChange: OnNodesChange;
+  onEdgesChange: OnEdgesChange;
+  onConnect: OnConnect;
+  nodeTypes: NodeTypes;
 }
 
 function ReactFlowCanvas(props: FlowProps): ReactElement {
-  const { nodes, edges, onNodesChange } = props;
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, nodeTypes } =
+    props;
   const fitViewOptions: FitViewOptions = {
     padding: 10,
   };
-
-  console.log("nodes", nodes);
+  const defaultEdgeOptions: DefaultEdgeOptions = {
+    animated: true,
+  };
 
   return (
     <div className="w-full h-[720px]">
       <ReactFlow
         nodes={nodes}
+        edges={edges}
+        defaultEdgeOptions={defaultEdgeOptions}
+        nodeTypes={nodeTypes}
         onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
         fitView
         fitViewOptions={fitViewOptions}
       >
