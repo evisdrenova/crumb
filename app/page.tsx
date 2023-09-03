@@ -16,12 +16,20 @@ import ReactFlow, {
   MiniMap,
   DefaultEdgeOptions,
   NodeTypes,
+  BackgroundVariant,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import RoundedBox from "../components/nodes/RoundedBox";
 import Circle from "../components/nodes/Circle";
 import Square from "../components/nodes/Square";
-import { SquareIcon, CircleIcon, BoxIcon } from "@radix-ui/react-icons";
+import {
+  SquareIcon,
+  CircleIcon,
+  BoxIcon,
+  DotFilledIcon,
+  PlusIcon,
+  GridIcon,
+} from "@radix-ui/react-icons";
 
 const nodeTypes: NodeTypes = {
   roundedBox: RoundedBox,
@@ -29,10 +37,15 @@ const nodeTypes: NodeTypes = {
   square: Square,
 };
 
+type BgVariant = "dots" | "cross" | "grid";
+
 export default function Home() {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [id, setId] = useState<number>(1);
+  const [bgVariant, setBgVariant] = useState<BackgroundVariant>(
+    BackgroundVariant.Dots
+  );
 
   const AddCircle = () => {
     const currNodes = nodes;
@@ -98,6 +111,29 @@ export default function Home() {
         <Button variant="outline" onClick={AddCircle}>
           <CircleIcon />
         </Button>
+        <div className="flex flex-col pt-5">
+          <div className="text-gray-600 text-sm">Background</div>
+          <div className="flex flex-row space-x-1 pt-2">
+            <Button
+              variant="outline"
+              onClick={() => setBgVariant(BackgroundVariant.Dots)}
+            >
+              <DotFilledIcon />
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setBgVariant(BackgroundVariant.Cross)}
+            >
+              <PlusIcon />
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setBgVariant(BackgroundVariant.Lines)}
+            >
+              <GridIcon />
+            </Button>
+          </div>
+        </div>
       </div>
       <ReactFlowCanvas
         nodes={nodes}
@@ -106,6 +142,7 @@ export default function Home() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
+        bgVariant={bgVariant}
       />
     </div>
   );
@@ -118,11 +155,19 @@ interface FlowProps {
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
   nodeTypes: NodeTypes;
+  bgVariant: BackgroundVariant;
 }
 
 function ReactFlowCanvas(props: FlowProps): ReactElement {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, nodeTypes } =
-    props;
+  const {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    nodeTypes,
+    bgVariant,
+  } = props;
   const fitViewOptions: FitViewOptions = {
     padding: 10,
   };
@@ -143,7 +188,7 @@ function ReactFlowCanvas(props: FlowProps): ReactElement {
         fitView
         fitViewOptions={fitViewOptions}
       >
-        <Background className="bg-gray-100" size={2} />
+        <Background className="bg-gray-100" variant={bgVariant} size={2} />
         <Controls />
         <MiniMap />
       </ReactFlow>
