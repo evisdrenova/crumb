@@ -7,7 +7,7 @@ import crumblogo from "../public/crumb_2.png";
 
 export default function TopNav(): ReactElement {
   return (
-    <div className="flex flex-row justify-between sticky top-0 justify-end py-3 border-b-2 border-b-gray-300 bg-[#f6f6f6]">
+    <div className="flex flex-row justify-between sticky top-0 px-10 py-3 border-b-2 border-b-gray-300 bg-[#f6f6f6]">
       <div>
         <Link href="/" className="flex items-center">
           <Image

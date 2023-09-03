@@ -1,7 +1,5 @@
-import Navs from "@/components/SideBar";
 import "./globals.css";
 import type { Metadata } from "next";
-import SideBar from "@/components/SideBar";
 import TopNav from "@/components/TopNav";
 
 export const metadata: Metadata = {
@@ -16,10 +14,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <div className="flex flex-col w-full bg-[#f6f6f6]" id="main">
-        <TopNav />
-        <div className="flex w-full h-full bg-[#f6f6f6]">{children}</div>
-      </div>
+      <body>
+        <div className="flex flex-col w-full bg-[#f6f6f6]" id="main">
+          <TopNav />
+          <div className="flex w-full h-full bg-[#f6f6f6]">{children}</div>
+        </div>
+      </body>
     </html>
   );
 }
