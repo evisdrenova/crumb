@@ -5,16 +5,10 @@ const handleStyle = { left: 10 };
 
 export default function Circle() {
   return (
-    <div className="h-[40px] w-[100px] rounded-full border-2 border-gray-400 bg-white">
+    <div className="h-[100px] w-[100px] rounded-full border-2 border-gray-400 bg-white">
       <Handle type="target" position={Position.Top} />
-
       <Handle type="source" position={Position.Bottom} id="a" />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="b"
-        style={handleStyle}
-      />
+      <Handle type="source" position={Position.Right} id="b" />
     </div>
   );
 }
