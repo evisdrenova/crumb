@@ -29,6 +29,7 @@ import {
   DotFilledIcon,
   PlusIcon,
   GridIcon,
+  DragHandleDots2Icon,
 } from "@radix-ui/react-icons";
 import { ChromePicker, SketchPicker } from "react-color";
 import {
@@ -37,6 +38,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { IconProps } from "@radix-ui/react-icons/dist/types";
 
 const nodeTypes: NodeTypes = {
   roundedBox: RoundedBox,
@@ -44,15 +55,21 @@ const nodeTypes: NodeTypes = {
   square: Square,
 };
 
+interface BgIcon {
+  icon: JSX.Element;
+  type: BackgroundVariant;
+}
+
 export default function Home() {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [id, setId] = useState<number>(1);
-  const [bgVariant, setBgVariant] = useState<BackgroundVariant>(
+  const [bgIcon, setBgIcon] = useState<BackgroundVariant>(
     BackgroundVariant.Dots
   );
   const [bgColor, setBgColor] = useState<string>("#F6F6F6");
-  const [bgIconColor, setBgIconColor] = useState<string>("#DADADA");
+  const [bgIconColor, setBgIconColor] = useState<string>("#8D8D8D");
+  const [bgIconSize, setBgIconSize] = useState<number>(2);
 
   const AddCircle = () => {
     const currNodes = nodes;
@@ -111,6 +128,30 @@ export default function Home() {
     setBgColor(color.hex);
   };
 
+  const customBgIcons: BgIcon[] = [
+    { icon: <GridIcon />, type: BackgroundVariant.Lines },
+    {
+      icon: <DragHandleDots2Icon />,
+      type: BackgroundVariant.Dots,
+    },
+    { icon: <PlusIcon />, type: BackgroundVariant.Cross },
+  ];
+
+  function stringToBackgroundVariant(
+    value: string
+  ): BackgroundVariant | undefined {
+    switch (value) {
+      case "lines":
+        return BackgroundVariant.Lines;
+      case "dots":
+        return BackgroundVariant.Dots;
+      case "cross":
+        return BackgroundVariant.Cross;
+      default:
+        return undefined; // Return undefined for invalid values
+    }
+  }
+
   return (
     <div className="flex flex-row w-full">
       <div
@@ -126,66 +167,84 @@ export default function Home() {
         <Button variant="outline" onClick={AddCircle}>
           <CircleIcon />
         </Button>
-        <div
-          className="flex flex-row space-x-2 items-center"
-          id="bg-color-setter"
-        >
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                className={`w-[40px] h-[40px] border-2 border-gray-400 bg-[${bgColor}]`}
-                variant="ghost"
-              />
-            </PopoverTrigger>
-            <PopoverContent>
-              <ChromePicker color={bgColor} onChange={handleBgColorChange} />
-            </PopoverContent>
-          </Popover>
-          <div id="color-name text-gray-800">{bgColor}</div>
-        </div>
         <div className="flex flex-col pt-5">
           <div className="text-gray-600 text-sm">Background</div>
-          <div className="flex flex-row space-x-1 pt-2">
-            <Button
-              variant="outline"
-              onClick={() => setBgVariant(BackgroundVariant.Dots)}
+          <div className="text-xs">Icon</div>
+          <div className="flex flex-row space-x-1">
+            <div
+              className="flex flex-row space-x-2 items-center"
+              id="bg-icon-color-setter"
             >
-              <DotFilledIcon />
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => setBgVariant(BackgroundVariant.Cross)}
-            >
-              <PlusIcon />
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => setBgVariant(BackgroundVariant.Lines)}
-            >
-              <GridIcon />
-            </Button>
-            <Input type="size" className="w-[24px]" />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    className={`w-[30px] h-[30px]`}
+                    style={{ backgroundColor: `${bgIconColor}` }}
+                    variant="outline"
+                  />
+                </PopoverTrigger>
+                <PopoverContent>
+                  <ChromePicker
+                    color={bgIconColor}
+                    onChange={handleBgIconColorChange}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">{bgIcon}</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-30">
+                <DropdownMenuLabel>Icon Type</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuRadioGroup
+                  value={bgIcon}
+                  onValueChange={(value) => {
+                    const bgIcon = stringToBackgroundVariant(value);
+                    if (bgIcon !== undefined) {
+                      setBgIcon(bgIcon);
+                    }
+                  }}
+                >
+                  {customBgIcons.map((node) => (
+                    <DropdownMenuRadioItem value={node.type} key={node.type}>
+                      <div className="flex flex-row items-center space-x-3">
+                        {node.icon}
+                        <div className="text-sm text-gray-600">{node.type}</div>
+                      </div>
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Input
+              type="size"
+              className="w-10"
+              value={bgIconSize}
+              onChange={(val) => setBgIconSize(+val.target.value)}
+            />
           </div>
+          <div className="text-xs pt-5">Fill</div>
           <div
             className="flex flex-row space-x-2 items-center"
-            id="bg-icon-color-setter"
+            id="bg-color-setter"
           >
             <Popover>
               <PopoverTrigger asChild>
                 <Button
-                  className={`w-[40px] h-[40px] border-2 border-gray-400`}
-                  style={{ backgroundColor: `${bgIconColor}` }}
-                  variant="ghost"
+                  className={`w-[30px] h-[30px] border border-gray-400`}
+                  style={{ backgroundColor: `${bgColor}` }}
+                  variant="outline"
                 />
               </PopoverTrigger>
               <PopoverContent>
-                <ChromePicker
-                  color={bgIconColor}
-                  onChange={handleBgIconColorChange}
-                />
+                <ChromePicker color={bgColor} onChange={handleBgColorChange} />
               </PopoverContent>
             </Popover>
-            <div id="color-name text-gray-800">{bgIconColor}</div>
+            <div id="color-name" className=" text-gray-800 text-sm">
+              {bgColor}
+            </div>
           </div>
         </div>
       </div>
@@ -196,9 +255,10 @@ export default function Home() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
-        bgVariant={bgVariant}
+        bgVariant={bgIcon}
         bgColor={bgColor}
         bgIconColor={bgIconColor}
+        bgIconSize={bgIconSize}
       />
     </div>
   );
@@ -214,6 +274,7 @@ interface FlowProps {
   bgVariant: BackgroundVariant;
   bgColor: string;
   bgIconColor: string;
+  bgIconSize: number;
 }
 
 function ReactFlowCanvas(props: FlowProps): ReactElement {
@@ -227,6 +288,7 @@ function ReactFlowCanvas(props: FlowProps): ReactElement {
     bgVariant,
     bgColor,
     bgIconColor,
+    bgIconSize,
   } = props;
   const fitViewOptions: FitViewOptions = {
     padding: 10,
@@ -251,10 +313,9 @@ function ReactFlowCanvas(props: FlowProps): ReactElement {
           style={{ backgroundColor: `${bgColor}` }}
           color={bgIconColor}
           variant={bgVariant}
-          size={2}
+          size={bgIconSize}
         />
         <Controls />
-        <MiniMap />
       </ReactFlow>
     </div>
   );
