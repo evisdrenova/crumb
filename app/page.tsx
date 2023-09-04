@@ -169,7 +169,28 @@ export default function Home() {
         </Button>
         <div className="flex flex-col pt-5">
           <div className="text-gray-600 text-sm">Background</div>
-          <div className="text-xs">Icon</div>
+          <div className="text-xs pt-5">Fill</div>
+          <div
+            className="flex flex-row space-x-2 items-center"
+            id="bg-color-setter"
+          >
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  className={`w-[30px] h-[30px] border border-gray-400`}
+                  style={{ backgroundColor: `${bgColor}` }}
+                  variant="outline"
+                />
+              </PopoverTrigger>
+              <PopoverContent>
+                <ChromePicker color={bgColor} onChange={handleBgColorChange} />
+              </PopoverContent>
+            </Popover>
+            <div id="color-name" className=" text-gray-800 text-sm">
+              {bgColor}
+            </div>
+          </div>
+          <div className="text-xs pt-3">Icon</div>
           <div className="flex flex-row space-x-1">
             <div
               className="flex flex-row space-x-2 items-center"
@@ -178,7 +199,7 @@ export default function Home() {
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
-                    className={`w-[30px] h-[30px]`}
+                    className={`w-[38px] h-[38px]`}
                     style={{ backgroundColor: `${bgIconColor}` }}
                     variant="outline"
                   />
@@ -224,27 +245,6 @@ export default function Home() {
               value={bgIconSize}
               onChange={(val) => setBgIconSize(+val.target.value)}
             />
-          </div>
-          <div className="text-xs pt-5">Fill</div>
-          <div
-            className="flex flex-row space-x-2 items-center"
-            id="bg-color-setter"
-          >
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  className={`w-[30px] h-[30px] border border-gray-400`}
-                  style={{ backgroundColor: `${bgColor}` }}
-                  variant="outline"
-                />
-              </PopoverTrigger>
-              <PopoverContent>
-                <ChromePicker color={bgColor} onChange={handleBgColorChange} />
-              </PopoverContent>
-            </Popover>
-            <div id="color-name" className=" text-gray-800 text-sm">
-              {bgColor}
-            </div>
           </div>
         </div>
       </div>
