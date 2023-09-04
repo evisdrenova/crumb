@@ -17,6 +17,7 @@ import ReactFlow, {
   DefaultEdgeOptions,
   NodeTypes,
   BackgroundVariant,
+  Position,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import RoundedBox from "../components/nodes/RoundedBox";
@@ -99,7 +100,15 @@ export default function Home() {
       id: `${id}`,
       type: "roundedBox",
       data: { label: "Input Node" },
-      position: { x: 250, y: 100 },
+      position: { x: 100, y: 100 },
+      sourcePosition: Position.Bottom,
+      targetPosition: Position.Top,
+      // style: {
+      //   background: "#fff",
+      //   border: "1px solid black",
+      //   borderRadius: 15,
+      //   fontSize: 12,
+      // },
     };
     setNodes([newNode, ...currNodes]);
     setId(id + 1);
@@ -178,7 +187,7 @@ export default function Home() {
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
-                    className={`w-[30px] h-[30px]`}
+                    className={`w-[38px] h-[38px]`}
                     style={{ backgroundColor: `${bgIconColor}` }}
                     variant="outline"
                   />
@@ -233,7 +242,7 @@ export default function Home() {
             <Popover>
               <PopoverTrigger asChild>
                 <Button
-                  className={`w-[30px] h-[30px] border border-gray-400`}
+                  className={`w-[38px] h-[38px] border border-gray-400`}
                   style={{ backgroundColor: `${bgColor}` }}
                   variant="outline"
                 />

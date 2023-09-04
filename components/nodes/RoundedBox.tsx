@@ -1,20 +1,27 @@
-import { useCallback } from "react";
-import { Handle, Position } from "reactflow";
-
-const handleStyle = { left: 10 };
+import { useEffect, useRef, useState } from "react";
+import {
+  Handle,
+  Position,
+  NodeResizer,
+  useUpdateNodeInternals,
+} from "reactflow";
+import { drag } from "d3-drag";
+import { select } from "d3-selection";
 
 export default function RoundedBox() {
   return (
-    <div className="h-[40px] w-[100px] rounded-xl border-2 border-gray-400 bg-white">
-      <Handle type="target" position={Position.Top} />
-
-      <Handle type="source" position={Position.Bottom} id="a" />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="b"
-        style={handleStyle}
+    <>
+      <NodeResizer
+        color="#ff0071"
+        isVisible={true}
+        minWidth={100}
+        minHeight={30}
       />
-    </div>
+      <div className="w-full h-full bg-white rounded-xl border border-gray-400">
+        <Handle type="target" position={Position.Left} />
+        <div style={{ padding: 10 }}>hello</div>
+        <Handle type="source" position={Position.Right} />{" "}
+      </div>
+    </>
   );
 }
