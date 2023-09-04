@@ -1,20 +1,21 @@
 import { useCallback } from "react";
-import { Handle, Position } from "reactflow";
+import { Handle, NodeResizer, Position } from "reactflow";
 
 const handleStyle = { left: 10 };
 
 export default function Square() {
   return (
-    <div className="h-[40px] w-[100px] border-2 border-gray-400 bg-white">
-      <Handle type="target" position={Position.Top} />
-
-      <Handle type="source" position={Position.Bottom} id="a" />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="b"
-        style={handleStyle}
+    <>
+      <NodeResizer
+        color="#6486FF"
+        isVisible={true}
+        minWidth={100}
+        minHeight={30}
       />
-    </div>
+      <div className="min-w-[100px] min-h-[30px] w-full h-full bg-white border border-gray-300">
+        <Handle type="target" position={Position.Left} />
+        <Handle type="source" position={Position.Right} />
+      </div>
+    </>
   );
 }
