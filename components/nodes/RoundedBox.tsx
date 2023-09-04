@@ -1,26 +1,17 @@
-import { useEffect, useRef, useState } from "react";
-import {
-  Handle,
-  Position,
-  NodeResizer,
-  useUpdateNodeInternals,
-} from "reactflow";
-import { drag } from "d3-drag";
-import { select } from "d3-selection";
+import { Handle, Position, NodeResizer } from "reactflow";
 
 export default function RoundedBox() {
   return (
     <>
       <NodeResizer
-        color="#ff0071"
+        color="#6486FF"
         isVisible={true}
         minWidth={100}
         minHeight={30}
       />
-      <div className="w-full h-full bg-white rounded-xl border border-gray-400">
+      <div className="min-w-[100px] min-h-[30px] w-full h-full bg-white rounded-xl border border-gray-300">
         <Handle type="target" position={Position.Left} />
-        <div style={{ padding: 10 }}>hello</div>
-        <Handle type="source" position={Position.Right} />{" "}
+        <Handle type="source" position={Position.Right} />
       </div>
     </>
   );

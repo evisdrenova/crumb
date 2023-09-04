@@ -18,6 +18,7 @@ import ReactFlow, {
   NodeTypes,
   BackgroundVariant,
   Position,
+  ConnectionMode,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import RoundedBox from "../components/nodes/RoundedBox";
@@ -101,14 +102,6 @@ export default function Home() {
       type: "roundedBox",
       data: { label: "Input Node" },
       position: { x: 100, y: 100 },
-      sourcePosition: Position.Bottom,
-      targetPosition: Position.Top,
-      // style: {
-      //   background: "#fff",
-      //   border: "1px solid black",
-      //   borderRadius: 15,
-      //   fontSize: 12,
-      // },
     };
     setNodes([newNode, ...currNodes]);
     setId(id + 1);
@@ -317,6 +310,7 @@ function ReactFlowCanvas(props: FlowProps): ReactElement {
         onConnect={onConnect}
         fitView
         fitViewOptions={fitViewOptions}
+        connectionMode={ConnectionMode.Loose}
       >
         <Background
           style={{ backgroundColor: `${bgColor}` }}
