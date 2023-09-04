@@ -110,6 +110,7 @@ export default function Home() {
   const handleBgColorChange = (color: any) => {
     setBgColor(color.hex);
   };
+
   return (
     <div className="flex flex-row w-full">
       <div
@@ -134,7 +135,6 @@ export default function Home() {
               <Button
                 className={`w-[40px] h-[40px] border-2 border-gray-400 bg-[${bgColor}]`}
                 variant="ghost"
-                onClick={() => setBgColor(bgColor)}
               />
             </PopoverTrigger>
             <PopoverContent>
@@ -176,7 +176,6 @@ export default function Home() {
                   className={`w-[40px] h-[40px] border-2 border-gray-400`}
                   style={{ backgroundColor: `${bgIconColor}` }}
                   variant="ghost"
-                  onClick={() => setBgColor(bgIconColor)}
                 />
               </PopoverTrigger>
               <PopoverContent>
