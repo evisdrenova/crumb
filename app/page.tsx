@@ -19,6 +19,7 @@ import ReactFlow, {
   BackgroundVariant,
   Position,
   ConnectionMode,
+  useOnSelectionChange,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import RoundedBox from "../components/nodes/RoundedBox";
@@ -49,7 +50,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { IconProps } from "@radix-ui/react-icons/dist/types";
 
 const nodeTypes: NodeTypes = {
   roundedBox: RoundedBox,
@@ -152,6 +152,14 @@ export default function Home() {
       default:
         return undefined; // Return undefined for invalid values
     }
+  }
+
+  function SelectionChangeLogger() {
+    useOnSelectionChange({
+      onChange: ({ nodes, edges }) => console.log("changed selection", nodes),
+    });
+
+    return null;
   }
 
   return (

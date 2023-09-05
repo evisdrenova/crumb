@@ -1,14 +1,91 @@
-import { useCallback } from "react";
-import { Handle, Position } from "reactflow";
+import { useEffect, useState } from "react";
+import {
+  Handle,
+  NodeResizer,
+  NodeToolbar,
+  Position,
+  useKeyPress,
+  useNodes,
+  useReactFlow,
+} from "reactflow";
 
-const handleStyle = { left: 10 };
+interface Props {
+  id: string;
+}
 
-export default function Circle() {
+export default function Circle(props: Props) {
+  const isShiftPressed = useKeyPress("Shift");
+  const { id } = props;
+  const nodes = useNodes();
+  const flow = useReactFlow();
+  const [width, setWidth] = useState(
+    nodes.find((node) => node.id == id)?.width
+  );
+  const [height, setHeight] = useState(
+    nodes.find((node) => node.id == id)?.height
+  );
+
+  const updateWidthAndHeight = () => {
+    if (!isShiftPressed) {
+      return;
+    }
+
+    flow.setNodes(
+      nodes.map((node) => {
+        if (node.id === id) {
+          if ((node.height ?? 0) > (node.width ?? 0)) {
+            node.height = node.width;
+            node.width = node.width;
+            setWidth(node.width);
+            setHeight(node.height);
+          } else {
+            node.height = node.height;
+            node.width = node.height;
+            setWidth(node.width);
+            setHeight(node.height);
+          }
+        }
+        return node;
+      })
+    );
+  };
+
+  useEffect(() => {
+    updateWidthAndHeight();
+    updateSizeCoordinates();
+  }, [nodes]);
+
+  const updateSizeCoordinates = () => {
+    setWidth(nodes.find((node) => node.id == id)?.width);
+    setHeight(nodes.find((node) => node.id == id)?.height);
+  };
+
   return (
-    <div className="h-[100px] w-[100px] rounded-full border-2 border-gray-400 bg-white">
-      <Handle type="target" position={Position.Top} />
-      <Handle type="source" position={Position.Bottom} id="a" />
-      <Handle type="source" position={Position.Right} id="b" />
-    </div>
+    <>
+      <NodeResizer
+        color="#6486FF"
+        isVisible={true}
+        minWidth={30}
+        minHeight={30}
+        onResize={() => {
+          updateWidthAndHeight();
+          updateSizeCoordinates();
+        }}
+        keepAspectRatio={isShiftPressed ? true : false}
+      />
+      <div
+        // onMouseEnter={() => setVisible(true)}
+        // onMouseLeave={() => setVisible(false)}
+        className="min-w-[30px] min-h-[30px] w-full h-full bg-white rounded-full border border-gray-300"
+      >
+        <NodeToolbar position={Position.Bottom}>
+          <div className="bg-blue-600 text-white text-sm rounded-sm px-1">
+            {width}x{height}
+          </div>
+        </NodeToolbar>
+        <Handle type="target" position={Position.Left} />
+        <Handle type="source" position={Position.Right} />
+      </div>
+    </>
   );
 }
