@@ -1,20 +1,58 @@
-import { useCallback } from "react";
-import { Handle, Position } from "reactflow";
+import {
+  Handle,
+  Position,
+  NodeResizer,
+  useNodes,
+  NodeToolbar,
+  useStore,
+  useKeyPress,
+} from "reactflow";
+import { useState, useEffect } from "react";
 
-const handleStyle = { left: 10 };
+interface Props {
+  id: string;
+  selected: boolean;
+}
 
-export default function Square() {
+export default function Square(props: Props) {
+  const isShiftPressed = useKeyPress("Shift");
+  const { id, selected } = props;
+  const size = useStore((s) => {
+    return s.nodeInternals.get(id);
+  });
+  const nodes = useNodes();
+  const [width, setWidth] = useState(size?.width);
+  const [height, setHeight] = useState(size?.height);
+
+  useEffect(() => {
+    updateSizeCoordinates();
+  }, [nodes]);
+
+  const updateSizeCoordinates = () => {
+    setWidth(size?.width);
+    setHeight(size?.height);
+  };
   return (
-    <div className="h-[40px] w-[100px] border-2 border-gray-400 bg-white">
-      <Handle type="target" position={Position.Top} />
-
-      <Handle type="source" position={Position.Bottom} id="a" />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="b"
-        style={handleStyle}
+    <>
+      <NodeResizer
+        color="#6486FF"
+        isVisible={selected}
+        minWidth={100}
+        minHeight={30}
+        onResize={() => {
+          updateSizeCoordinates();
+        }}
+        keepAspectRatio={isShiftPressed ? true : false}
       />
-    </div>
+      <div className="min-w-[100px] min-h-[30px] w-full h-full bg-white border border-gray-300">
+        <NodeToolbar position={Position.Bottom}>
+          <div className="bg-blue-600 text-white text-sm rounded-sm px-1">
+            {width}x{height}
+          </div>
+        </NodeToolbar>
+        <Handle type="target" position={Position.Left} />
+        <Handle type="source" position={Position.Right} />
+      </div>
+    </>
   );
 }
