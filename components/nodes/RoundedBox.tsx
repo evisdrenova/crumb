@@ -4,42 +4,46 @@ import {
   NodeResizer,
   useNodes,
   NodeToolbar,
+  useStore,
+  useKeyPress,
 } from "reactflow";
 import { useState, useEffect } from "react";
 
 interface Props {
   id: string;
+  selected: boolean;
 }
 
 export default function RoundedBox(props: Props) {
-  const { id } = props;
+  const isShiftPressed = useKeyPress("Shift");
+  const { id, selected } = props;
+  const size = useStore((s) => {
+    return s.nodeInternals.get(id);
+  });
   const nodes = useNodes();
-  const [width, setWidth] = useState(
-    nodes.find((node) => node.id == id)?.width
-  );
-  const [height, setHeight] = useState(
-    nodes.find((node) => node.id == id)?.height
-  );
-
-  const updateSizeCoordinates = () => {
-    setWidth(nodes.find((node) => node.id == id)?.width);
-    setHeight(nodes.find((node) => node.id == id)?.height);
-  };
+  const [width, setWidth] = useState(size?.width);
+  const [height, setHeight] = useState(size?.height);
 
   useEffect(() => {
     updateSizeCoordinates();
   }, [nodes]);
 
+  const updateSizeCoordinates = () => {
+    setWidth(size?.width);
+    setHeight(size?.height);
+  };
+
   return (
     <>
       <NodeResizer
         color="#6486FF"
-        isVisible={true}
+        isVisible={selected}
         minWidth={100}
         minHeight={30}
         onResize={() => {
           updateSizeCoordinates();
         }}
+        keepAspectRatio={isShiftPressed ? true : false}
       />
       <div className="min-w-[100px] min-h-[30px] w-full h-full bg-white rounded-xl border border-gray-300">
         <NodeToolbar position={Position.Bottom}>

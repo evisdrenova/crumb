@@ -20,6 +20,7 @@ import ReactFlow, {
   Position,
   ConnectionMode,
   useOnSelectionChange,
+  ReactFlowProvider,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import RoundedBox from "../components/nodes/RoundedBox";
@@ -258,18 +259,20 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <ReactFlowCanvas
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        nodeTypes={nodeTypes}
-        bgVariant={bgIcon}
-        bgColor={bgColor}
-        bgIconColor={bgIconColor}
-        bgIconSize={bgIconSize}
-      />
+      <ReactFlowProvider>
+        <ReactFlowCanvas
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          nodeTypes={nodeTypes}
+          bgVariant={bgIcon}
+          bgColor={bgColor}
+          bgIconColor={bgIconColor}
+          bgIconSize={bgIconSize}
+        />
+      </ReactFlowProvider>
     </div>
   );
 }
