@@ -21,6 +21,7 @@ import ReactFlow, {
   ConnectionMode,
   useOnSelectionChange,
   ReactFlowProvider,
+  Panel,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import RoundedBox from "../components/nodes/RoundedBox";
@@ -34,6 +35,9 @@ import {
   PlusIcon,
   GridIcon,
   DragHandleDots2Icon,
+  BorderAllIcon,
+  BorderWidthIcon,
+  CornersIcon,
 } from "@radix-ui/react-icons";
 import { ChromePicker, SketchPicker } from "react-color";
 import {
@@ -51,6 +55,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { PaintBucketIcon } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const nodeTypes: NodeTypes = {
   roundedBox: RoundedBox,
@@ -323,6 +334,9 @@ function ReactFlowCanvas(props: FlowProps): ReactElement {
         fitViewOptions={fitViewOptions}
         connectionMode={ConnectionMode.Loose}
       >
+        <Panel position="top-center">
+          <PanelToolbar />
+        </Panel>
         <Background
           style={{ backgroundColor: `${bgColor}` }}
           color={bgIconColor}
@@ -332,5 +346,40 @@ function ReactFlowCanvas(props: FlowProps): ReactElement {
         <Controls />
       </ReactFlow>
     </div>
+  );
+}
+
+function PanelToolbar(): ReactElement {
+  return (
+    <div className="flex flex-row items-center space-x-2 bg-gray-700 border border-gray-800 p-1 rounded-lg">
+      <TooltipButton
+        content={<PaintBucketIcon className="w-[16px] h-[16px]" />}
+        tip="Background"
+      />
+      <TooltipButton content={<BorderAllIcon />} tip="Border Color" />
+      <TooltipButton content={<BorderWidthIcon />} tip="Border Width" />
+      <TooltipButton content={<CornersIcon />} tip="Border Radius" />
+    </div>
+  );
+}
+
+interface ButtonProps {
+  content: JSX.Element;
+  tip: string;
+}
+
+function TooltipButton(props: ButtonProps): ReactElement {
+  const { content, tip } = props;
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="tooltip">{content}</Button>
+        </TooltipTrigger>
+        <TooltipContent side="bottom">
+          <p>{tip}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }

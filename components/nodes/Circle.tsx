@@ -6,7 +6,6 @@ import {
   Position,
   useKeyPress,
   useNodes,
-  useReactFlow,
   useStore,
 } from "reactflow";
 
@@ -52,6 +51,7 @@ export default function Circle(props: Props) {
             {width} x {height}
           </div>
         </NodeToolbar>
+        <NodeToolbar position={Position.Top}></NodeToolbar>
         <Handle type="target" position={Position.Left} />
         <Handle type="source" position={Position.Right} />
       </div>
