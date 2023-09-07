@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Handle,
   NodeResizer,
@@ -55,8 +55,12 @@ export default function Circle(props: Props) {
           </div>
         </NodeToolbar>
         <NodeToolbar position={Position.Top}></NodeToolbar>
-        <Handle type="target" position={Position.Left} />
-        <Handle type="source" position={Position.Right} />
+        {selected && (
+          <>
+            <Handle type="target" position={Position.Left} />
+            <Handle type="source" position={Position.Right} />
+          </>
+        )}
       </div>
     </>
   );
