@@ -47,7 +47,7 @@ export default function Circle(props: Props) {
       />
       <div
         className="min-w-[30px] min-h-[30px] w-full h-full rounded-full border border-gray-300"
-        style={{ background: "red" }}
+        style={{ background: "green" }}
       >
         <NodeToolbar position={Position.Bottom}>
           <div className="bg-blue-600 text-white text-sm rounded-sm px-1">

@@ -11,7 +11,6 @@ import {
   GridIcon,
   DragHandleDots2Icon,
 } from "@radix-ui/react-icons";
-import { ChromePicker, ColorResult, SketchPicker } from "react-color";
 import {
   Popover,
   PopoverContent,
@@ -27,6 +26,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { HexColorPicker } from "react-colorful";
 
 interface SideNavProps {
   addRoundedBox: () => void;
@@ -35,11 +35,11 @@ interface SideNavProps {
   bgColor: string;
   bgIcon: string;
   bgIconColor: string;
-  handleBgColorChange: (color: ColorResult) => void;
   setBgIcon: (val: BackgroundVariant) => void;
   setBgIconSize: (val: number) => void;
+  setBgColor: (val: string) => void;
   bgIconSize: number;
-  handleBgIconColorChange: (color: ColorResult) => void;
+  setBgIconColor: (val: string) => void;
 }
 
 interface BgIcon {
@@ -53,13 +53,13 @@ export default function SideNav(props: SideNavProps): ReactElement {
     addCircle,
     addSquare,
     bgIcon,
+    setBgColor,
     bgIconColor,
-    handleBgColorChange,
+    setBgIconColor,
     bgIconSize,
     setBgIcon,
     bgColor,
     setBgIconSize,
-    handleBgIconColorChange,
   } = props;
 
   const customBgIcons: BgIcon[] = [
@@ -116,9 +116,9 @@ export default function SideNav(props: SideNavProps): ReactElement {
                 />
               </PopoverTrigger>
               <PopoverContent>
-                <ChromePicker
+                <HexColorPicker
                   color={bgIconColor}
-                  onChange={handleBgIconColorChange}
+                  onChange={(color) => setBgIconColor(color)}
                 />
               </PopoverContent>
             </Popover>
@@ -171,7 +171,10 @@ export default function SideNav(props: SideNavProps): ReactElement {
               />
             </PopoverTrigger>
             <PopoverContent>
-              <ChromePicker color={bgColor} onChange={handleBgColorChange} />
+              <HexColorPicker
+                color={bgColor}
+                onChange={(color) => setBgColor(color)}
+              />
             </PopoverContent>
           </Popover>
           <div id="color-name" className=" text-gray-800 text-sm">

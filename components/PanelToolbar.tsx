@@ -3,7 +3,6 @@ import {
   BorderWidthIcon,
   CornersIcon,
 } from "@radix-ui/react-icons";
-import { ChromePicker, ColorResult } from "react-color";
 import {
   Popover,
   PopoverContent,
@@ -19,6 +18,7 @@ import {
 import { Button } from "./ui/button";
 import { ReactElement, useEffect, useState } from "react";
 import { Node, useNodes, useOnSelectionChange, useStore } from "reactflow";
+import { HexColorPicker } from "react-colorful";
 
 interface Props {
   setNodes: (nodes: Node[]) => void;
@@ -38,7 +38,7 @@ export default function PanelToolbar(props: Props): ReactElement {
     const updatedNodes = nodes.map((node) => {
       if (selectedNode) {
         if (node.id == selectedNode[0]?.id) {
-          node.style = { ...node.style, backgroundColor: bgColor };
+          node.style = { ...node.style, background: bgColor };
         }
       }
       return node;
@@ -63,10 +63,10 @@ export default function PanelToolbar(props: Props): ReactElement {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="bg-transparent">
-                  <ChromePicker
+                  <HexColorPicker
                     color={bgColor}
                     onChange={(color) => {
-                      setBgColor(color.hex);
+                      setBgColor(color);
                       HandleBgUpdate;
                     }}
                   />
@@ -90,7 +90,7 @@ export default function PanelToolbar(props: Props): ReactElement {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="bg-transparent">
-                  <ChromePicker
+                  <HexColorPicker
                   // color={bgIconColor}
                   // onChange={setNodeBgColors}
                   />
@@ -114,7 +114,7 @@ export default function PanelToolbar(props: Props): ReactElement {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="bg-transparent">
-                  <ChromePicker
+                  <HexColorPicker
                   // color={bgIconColor}
                   // onChange={setNodeBgColors}
                   />
@@ -138,7 +138,7 @@ export default function PanelToolbar(props: Props): ReactElement {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="bg-transparent">
-                  <ChromePicker
+                  <HexColorPicker
                   // color={bgIconColor}
                   // onChange={setNodeBgColors}
                   />

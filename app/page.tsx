@@ -93,13 +93,7 @@ export default function Home() {
     [setEdges]
   );
 
-  const handleBgIconColorChange = (color: ColorResult) => {
-    setBgIconColor(color.hex);
-  };
-
-  const handleBgColorChange = (color: ColorResult) => {
-    setBgColor(color.hex);
-  };
+  console.log("bg color", bgColor);
 
   return (
     <div className="flex flex-row w-full">
@@ -111,10 +105,10 @@ export default function Home() {
         bgIcon={bgIcon}
         bgIconSize={bgIconSize}
         bgIconColor={bgIconColor}
-        handleBgColorChange={handleBgColorChange}
         setBgIcon={setBgIcon}
         setBgIconSize={setBgIconSize}
-        handleBgIconColorChange={handleBgIconColorChange}
+        setBgColor={setBgColor}
+        setBgIconColor={setBgIconColor}
       />
       <ReactFlowProvider>
         <div className="w-full h-[720px]">
