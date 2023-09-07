@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import {
   Handle,
   NodeResizer,
@@ -45,7 +45,10 @@ export default function Circle(props: Props) {
         }}
         keepAspectRatio={isShiftPressed ? true : false}
       />
-      <div className="min-w-[30px] min-h-[30px] w-full h-full bg-white rounded-full border border-gray-300">
+      <div
+        className="min-w-[30px] min-h-[30px] w-full h-full rounded-full border border-gray-300"
+        style={{ background: "red" }}
+      >
         <NodeToolbar position={Position.Bottom}>
           <div className="bg-blue-600 text-white text-sm rounded-sm px-1">
             {width} x {height}
