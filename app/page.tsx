@@ -16,6 +16,7 @@ import ReactFlow, {
   ConnectionMode,
   ReactFlowProvider,
   Panel,
+  useNodesState,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import RoundedBox from "../components/nodes/RoundedBox";
@@ -32,7 +33,7 @@ const nodeTypes: NodeTypes = {
 };
 
 export default function Home() {
-  const [nodes, setNodes] = useState<Node[]>([]);
+  const [nodes, setNodes] = useNodesState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [id, setId] = useState<number>(1);
   const [bgIcon, setBgIcon] = useState<BackgroundVariant>(
@@ -41,17 +42,17 @@ export default function Home() {
   const [bgColor, setBgColor] = useState<string>("#F6F6F6");
   const [bgIconColor, setBgIconColor] = useState<string>("#8D8D8D");
   const [bgIconSize, setBgIconSize] = useState<number>(2);
-  const [nodeBgColor, setNodeBgColor] = useState<string>("");
 
   const AddCircle = () => {
     const currNodes = nodes;
     const newNode = {
       id: `${id}`,
       type: "circle",
-      data: { label: "Input Node" },
+      data: [],
       position: { x: 250, y: 100 },
+      style: { background: "red" },
     };
-    setNodes([newNode, ...currNodes]);
+    setNodes([...currNodes, newNode]);
     setId(id + 1);
   };
   const AddSquare = () => {
@@ -59,7 +60,7 @@ export default function Home() {
     const newNode = {
       id: `${id}`,
       type: "square",
-      data: { label: "Input Node" },
+      data: [],
       position: { x: 250, y: 100 },
     };
     setNodes([newNode, ...currNodes]);
@@ -70,7 +71,7 @@ export default function Home() {
     const newNode = {
       id: `${id}`,
       type: "roundedBox",
-      data: { label: "Input Node" },
+      data: [],
       position: { x: 100, y: 100 },
     };
     setNodes([newNode, ...currNodes]);
@@ -130,7 +131,7 @@ export default function Home() {
             connectionMode={ConnectionMode.Loose}
           >
             <Panel position="top-center">
-              <PanelToolbar />
+              <PanelToolbar setNodes={setNodes} />
             </Panel>
             <Background
               style={{ backgroundColor: `${bgColor}` }}
