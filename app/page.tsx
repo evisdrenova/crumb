@@ -50,7 +50,12 @@ export default function Home() {
       type: "circle",
       data: [],
       position: { x: 250, y: 100 },
-      style: { borderRadius: "50%", background: "#d9d9d9" },
+      style: {
+        borderRadius: "50%",
+        background: "#d9d9d9",
+        borderColor: "#F6F6F6",
+        borderWidth: "1px",
+      },
     };
     setNodes([...currNodes, newNode]);
     setId(id + 1);
@@ -62,7 +67,12 @@ export default function Home() {
       type: "square",
       data: [],
       position: { x: 250, y: 100 },
-      style: { borderRadius: "0%", background: "#d9d9d9" },
+      style: {
+        borderRadius: "0%",
+        background: "#d9d9d9",
+        borderColor: "#F6F6F6",
+        borderWidth: "1px",
+      },
     };
     setNodes([newNode, ...currNodes]);
     setId(id + 1);
@@ -75,7 +85,12 @@ export default function Home() {
       type: "roundedBox",
       data: [],
       position: { x: 100, y: 100 },
-      style: { borderRadius: ".5rem", background: "#d9d9d9" },
+      style: {
+        borderRadius: ".5rem",
+        background: "#d9d9d9",
+        borderColor: "#F6F6F6",
+        borderWidth: "1px",
+      },
     };
     setNodes([newNode, ...currNodes]);
     setId(id + 1);

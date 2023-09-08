@@ -27,7 +27,8 @@ interface Props {
 export default function PanelToolbar(props: Props): ReactElement {
   const [selectedNode, setSelectedNode] = useState<Node[]>();
   const nodes = useNodes();
-  const [bgColor, setBgColor] = useState<string>("");
+  const [nodeBgColor, setNodeBgColor] = useState<string>("");
+  const [nodeBorderColor, setNodeBorderColor] = useState<string>("");
   const { setNodes } = props;
 
   useOnSelectionChange({
@@ -40,7 +41,7 @@ export default function PanelToolbar(props: Props): ReactElement {
         if (node.id == selectedNode[0]?.id) {
           node.style = {
             ...node.style,
-            background: bgColor,
+            background: nodeBgColor,
           };
         }
       }
@@ -51,7 +52,26 @@ export default function PanelToolbar(props: Props): ReactElement {
 
   useEffect(() => {
     HandleBgUpdate();
-  }, [bgColor, setNodes]);
+  }, [nodeBgColor, setNodes]);
+
+  const HandleNodeBorderColorUpdate = () => {
+    const updatedNodes = nodes.map((node) => {
+      if (selectedNode) {
+        if (node.id == selectedNode[0]?.id) {
+          node.style = {
+            ...node.style,
+            borderColor: nodeBorderColor,
+          };
+        }
+      }
+      return node;
+    });
+    setNodes(updatedNodes);
+  };
+
+  useEffect(() => {
+    HandleNodeBorderColorUpdate();
+  }, [nodeBorderColor, setNodes]);
 
   return (
     <div className="flex flex-row items-center space-x-2 bg-gray-700 border border-gray-800 p-1 rounded-lg">
@@ -67,9 +87,9 @@ export default function PanelToolbar(props: Props): ReactElement {
                 </PopoverTrigger>
                 <PopoverContent className="bg-transparent">
                   <HexColorPicker
-                    color={bgColor}
+                    color={nodeBgColor}
                     onChange={(color) => {
-                      setBgColor(color);
+                      setNodeBgColor(color);
                       HandleBgUpdate;
                     }}
                   />
@@ -94,8 +114,11 @@ export default function PanelToolbar(props: Props): ReactElement {
                 </PopoverTrigger>
                 <PopoverContent className="bg-transparent">
                   <HexColorPicker
-                  // color={bgIconColor}
-                  // onChange={setNodeBgColors}
+                    color={nodeBorderColor}
+                    onChange={(color) => {
+                      setNodeBorderColor(color);
+                      HandleNodeBorderColorUpdate;
+                    }}
                   />
                 </PopoverContent>
               </Popover>
