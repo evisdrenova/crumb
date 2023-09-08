@@ -11,5 +11,4 @@ Crumb is an interacive, node-based diagram creator that enables anyone to create
 - ability to change multiple nodes styles by selecting them
 - fix the connecting process because right now the handlers don't show bescause they're turned off when it isn't selected - but they should show if at least one node is selected
 - ability to delete a node
-- move shapes from side nav to the panel
-  -ablity to set border radius individually
+- ablity to set border radius individually

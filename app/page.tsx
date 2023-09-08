@@ -22,9 +22,7 @@ import "reactflow/dist/style.css";
 import RoundedBox from "../components/nodes/RoundedBox";
 import Circle from "../components/nodes/Circle";
 import Square from "../components/nodes/Square";
-import SideNav from "@/components/SideNav";
 import PanelToolbar from "@/components/PanelToolbar";
-import { ColorResult } from "react-color";
 
 const nodeTypes: NodeTypes = {
   roundedBox: RoundedBox,
@@ -35,69 +33,12 @@ const nodeTypes: NodeTypes = {
 export default function Home() {
   const [nodes, setNodes] = useNodesState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
-  const [id, setId] = useState<number>(1);
   const [bgIcon, setBgIcon] = useState<BackgroundVariant>(
     BackgroundVariant.Dots
   );
   const [bgColor, setBgColor] = useState<string>("#F6F6F6");
   const [bgIconColor, setBgIconColor] = useState<string>("#8D8D8D");
   const [bgIconSize, setBgIconSize] = useState<number>(2);
-
-  const AddCircle = () => {
-    const currNodes = nodes;
-    const newNode = {
-      id: `${id}`,
-      type: "circle",
-      data: [],
-      position: { x: 250, y: 100 },
-      style: {
-        //default styles
-        borderRadius: "50%",
-        background: "#d9d9d9",
-        borderColor: "#BEBEBE",
-        borderWidth: "1px",
-      },
-    };
-    setNodes([...currNodes, newNode]);
-    setId(id + 1);
-  };
-  const AddSquare = () => {
-    const currNodes = nodes;
-    const newNode = {
-      id: `${id}`,
-      type: "square",
-      data: [],
-      position: { x: 250, y: 100 },
-      style: {
-        //default styles
-        borderRadius: "0%",
-        background: "#d9d9d9",
-        borderColor: "#BEBEBE",
-        borderWidth: "1px",
-      },
-    };
-    setNodes([newNode, ...currNodes]);
-    setId(id + 1);
-  };
-
-  const AddRoundedBox = () => {
-    const currNodes = nodes;
-    const newNode = {
-      id: `${id}`,
-      type: "roundedBox",
-      data: [],
-      position: { x: 100, y: 100 },
-      style: {
-        //default styles
-        borderRadius: ".5rem",
-        background: "#d9d9d9",
-        borderColor: "#BEBEBE",
-        borderWidth: "1px",
-      },
-    };
-    setNodes([newNode, ...currNodes]);
-    setId(id + 1);
-  };
 
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -116,19 +57,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-row w-full">
-      <SideNav
-        addRoundedBox={AddRoundedBox}
-        addCircle={AddCircle}
-        addSquare={AddSquare}
-        bgColor={bgColor}
-        bgIcon={bgIcon}
-        bgIconSize={bgIconSize}
-        bgIconColor={bgIconColor}
-        setBgIcon={setBgIcon}
-        setBgIconSize={setBgIconSize}
-        setBgColor={setBgColor}
-        setBgIconColor={setBgIconColor}
-      />
       <ReactFlowProvider>
         <div className="w-full h-[720px]">
           <ReactFlow
@@ -144,7 +72,17 @@ export default function Home() {
             connectionMode={ConnectionMode.Loose}
           >
             <Panel position="top-center">
-              <PanelToolbar setNodes={setNodes} />
+              <PanelToolbar
+                setNodes={setNodes}
+                bgColor={bgColor}
+                bgIcon={bgIcon}
+                bgIconSize={bgIconSize}
+                bgIconColor={bgIconColor}
+                setBgIcon={setBgIcon}
+                setBgIconSize={setBgIconSize}
+                setBgColor={setBgColor}
+                setBgIconColor={setBgIconColor}
+              />
             </Panel>
             <Background
               style={{ backgroundColor: `${bgColor}` }}
