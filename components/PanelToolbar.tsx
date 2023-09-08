@@ -131,7 +131,10 @@ export default function PanelToolbar(props: Props): ReactElement {
             <div id="bg-icon-color-setter">
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="tooltip">
+                  <Button
+                    variant="tooltip"
+                    disabled={selectedNode?.length == 0}
+                  >
                     <PaintBucketIcon className="w-[16px] h-[16px]" />
                   </Button>
                 </PopoverTrigger>
@@ -158,7 +161,10 @@ export default function PanelToolbar(props: Props): ReactElement {
             <div id="bg-icon-color-setter">
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="tooltip">
+                  <Button
+                    variant="tooltip"
+                    disabled={selectedNode?.length == 0}
+                  >
                     <BorderAllIcon />
                   </Button>
                 </PopoverTrigger>
@@ -185,6 +191,7 @@ export default function PanelToolbar(props: Props): ReactElement {
             <div id="bg-icon-color-setter">
               <Button
                 variant="tooltip"
+                disabled={selectedNode?.length == 0}
                 onClick={() => {
                   if (!openBorderWidth) {
                     setOpenBorderWidth(true);
@@ -197,7 +204,7 @@ export default function PanelToolbar(props: Props): ReactElement {
               </Button>
             </div>
           </TooltipTrigger>
-          <TooltipContent side="bottom" sideOffset={20}>
+          <TooltipContent side="bottom">
             <p>Border Width</p>
           </TooltipContent>
         </Tooltip>
@@ -230,9 +237,8 @@ export default function PanelToolbar(props: Props): ReactElement {
             <Button
               variant="tooltip"
               disabled={
-                selectedNode &&
-                selectedNode.length == 0 &&
-                selectedNode[0]?.type == "circle"
+                (selectedNode && selectedNode[0]?.type == "circle") ||
+                selectedNode?.length == 0
               }
               onClick={() => {
                 if (!openBorderRadius) {
