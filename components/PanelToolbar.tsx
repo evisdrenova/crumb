@@ -57,6 +57,7 @@ interface Props {
 interface BgIcon {
   icon: JSX.Element;
   type: BackgroundVariant;
+  name: string;
 }
 
 export default function PanelToolbar(props: Props): ReactElement {
@@ -226,12 +227,13 @@ export default function PanelToolbar(props: Props): ReactElement {
   }, [nodeBorderRadius, setNodes, isEnterPressed]);
 
   const customBgIcons: BgIcon[] = [
-    { icon: <GridIcon />, type: BackgroundVariant.Lines },
+    { icon: <GridIcon />, type: BackgroundVariant.Lines, name: "grid" },
     {
       icon: <DragHandleDots2Icon />,
       type: BackgroundVariant.Dots,
+      name: "dots",
     },
-    { icon: <PlusIcon />, type: BackgroundVariant.Cross },
+    { icon: <PlusIcon />, type: BackgroundVariant.Cross, name: "cross" },
   ];
 
   function stringToBackgroundVariant(
@@ -248,6 +250,16 @@ export default function PanelToolbar(props: Props): ReactElement {
         return undefined; // Return undefined for invalid values
     }
   }
+
+  const handleBgIcon = (): JSX.Element => {
+    const icon = customBgIcons.find((icon) => icon.name == bgIcon);
+    return (
+      <div className="flex flex-row items-center gap-2 hover:bg-gray-600 rounded-lg text-md font-light">
+        {icon?.icon}
+        {icon?.type}
+      </div>
+    );
+  };
 
   return (
     <div className="flex flex-row items-center space-x-1 bg-gray-700 border border-gray-800 p-1 rounded-lg">
@@ -281,7 +293,7 @@ export default function PanelToolbar(props: Props): ReactElement {
             <div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="panel">{bgIcon}</Button>
+                  <Button variant="panel">{handleBgIcon()}</Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-30 bg-gray-700 text-white rounded-lg mt-2 py-3 px-2 cursor-pointer">
                   <DropdownMenuSeparator />
