@@ -45,7 +45,7 @@ export default function RoundedBox(props: Props) {
         }}
         keepAspectRatio={isShiftPressed ? true : false}
       />
-      <div className="min-w-[100px] min-h-[30px] w-full h-full border rounded-lg border-gray-300">
+      <div className="min-w-[100px] min-h-[30px] w-full h-full">
         <NodeToolbar position={Position.Bottom}>
           <div className="bg-blue-600 text-white text-sm rounded-sm px-1">
             {width}x{height}

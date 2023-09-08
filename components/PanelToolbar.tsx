@@ -33,6 +33,8 @@ export default function PanelToolbar(props: Props): ReactElement {
   const [nodeBorderWidth, setNodeBorderWidth] = useState<string>("");
   const [isEnterPressed, setIsEnterPressed] = useState<boolean>(false);
   const [openBorderWidth, setOpenBorderWidth] = useState<boolean>(false);
+  const [openBorderRadius, setOpenBorderRadius] = useState<boolean>(false);
+  const [nodeBorderRadius, setNodeBorderRadius] = useState<string>("");
   const { setNodes } = props;
 
   useOnSelectionChange({
@@ -98,6 +100,28 @@ export default function PanelToolbar(props: Props): ReactElement {
   useEffect(() => {
     HandleNodeBorderWidthUpdate();
   }, [nodeBorderWidth, setNodes, isEnterPressed]);
+
+  const HandleNodeBorderRadiusUpdate = () => {
+    if (isEnterPressed) {
+      //required bc is user goes from 3 digit to 2 digit, the border won't jump
+      const updatedNodes = nodes.map((node) => {
+        if (selectedNode) {
+          if (node.id == selectedNode[0]?.id) {
+            node.style = {
+              ...node.style,
+              borderRadius: nodeBorderRadius + "px",
+            };
+          }
+        }
+        return node;
+      });
+      setNodes(updatedNodes);
+    }
+  };
+
+  useEffect(() => {
+    HandleNodeBorderRadiusUpdate();
+  }, [nodeBorderRadius, setNodes, isEnterPressed]);
 
   return (
     <div className="flex flex-row items-center space-x-2 bg-gray-700 border border-gray-800 p-1 rounded-lg">
@@ -181,7 +205,7 @@ export default function PanelToolbar(props: Props): ReactElement {
       {openBorderWidth && (
         <Input
           type="text"
-          className="w-[50px] h-[40px] focus-visible:ring-0"
+          className="w-[50px] h-[40px]"
           placeholder="4px"
           maxLength={3}
           value={nodeBorderWidth}
@@ -199,30 +223,54 @@ export default function PanelToolbar(props: Props): ReactElement {
           }}
         />
       )}
+
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <div id="bg-icon-color-setter">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="tooltip">
-                    <CornersIcon />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="bg-transparent">
-                  <HexColorPicker
-                  // color={bgIconColor}
-                  // onChange={setNodeBgColors}
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
+            <Button
+              variant="tooltip"
+              disabled={
+                selectedNode &&
+                selectedNode.length == 0 &&
+                selectedNode[0]?.type == "circle"
+              }
+              onClick={() => {
+                if (!openBorderRadius) {
+                  setOpenBorderRadius(true);
+                } else {
+                  setOpenBorderRadius(false);
+                }
+              }}
+            >
+              <CornersIcon />
+            </Button>
           </TooltipTrigger>
           <TooltipContent side="bottom">
             <p>Border Radius</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
+      {openBorderRadius && (
+        <Input
+          type="text"
+          className="w-[50px] h-[40px]"
+          placeholder="4px"
+          maxLength={3}
+          value={nodeBorderRadius}
+          onChange={(val) => {
+            //makes the scaling up and down smooth so that the border with doesn't always
+            //go back to zero when the user is updating the value
+            setIsEnterPressed(false);
+            setNodeBorderRadius(val.target.value);
+          }}
+          onKeyUp={(event) => {
+            if (event.key === "Enter") {
+              setIsEnterPressed(true);
+              HandleNodeBorderRadiusUpdate;
+            }
+          }}
+        />
+      )}
     </div>
   );
 }

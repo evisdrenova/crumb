@@ -55,7 +55,7 @@ export default function Home() {
         borderRadius: "50%",
         background: "#d9d9d9",
         borderColor: "#BEBEBE",
-        borderWidth: "6px",
+        borderWidth: "1px",
       },
     };
     setNodes([...currNodes, newNode]);
