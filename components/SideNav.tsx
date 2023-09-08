@@ -151,7 +151,7 @@ export default function SideNav(props: SideNavProps): ReactElement {
             </DropdownMenuContent>
           </DropdownMenu>
           <Input
-            type="size"
+            type="text"
             className="w-10"
             value={bgIconSize}
             onChange={(val) => setBgIconSize(+val.target.value)}

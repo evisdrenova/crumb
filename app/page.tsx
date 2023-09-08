@@ -51,10 +51,11 @@ export default function Home() {
       data: [],
       position: { x: 250, y: 100 },
       style: {
+        //default styles
         borderRadius: "50%",
         background: "#d9d9d9",
-        borderColor: "#F6F6F6",
-        borderWidth: "1px",
+        borderColor: "#BEBEBE",
+        borderWidth: "20px",
       },
     };
     setNodes([...currNodes, newNode]);
@@ -68,9 +69,10 @@ export default function Home() {
       data: [],
       position: { x: 250, y: 100 },
       style: {
+        //default styles
         borderRadius: "0%",
         background: "#d9d9d9",
-        borderColor: "#F6F6F6",
+        borderColor: "#BEBEBE",
         borderWidth: "1px",
       },
     };
@@ -86,9 +88,10 @@ export default function Home() {
       data: [],
       position: { x: 100, y: 100 },
       style: {
+        //default styles
         borderRadius: ".5rem",
         background: "#d9d9d9",
-        borderColor: "#F6F6F6",
+        borderColor: "#BEBEBE",
         borderWidth: "1px",
       },
     };
