@@ -13,5 +13,3 @@ Crumb is an interacive, node-based diagram creator that enables anyone to create
 - ability to delete a node
 - move shapes from side nav to the panel
   -ablity to set border radius individually
-  - for the background icon type - make it so the selected value it shows in the panel is the icon + the name
-  - fix the popovers so that they don't always show - just when you hover over it, right now it's annoying

@@ -35,7 +35,6 @@ import { Input } from "./ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
@@ -287,50 +286,53 @@ export default function PanelToolbar(props: Props): ReactElement {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div>
-              <DropdownMenu>
+      <div>
+        <DropdownMenu>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
                 <DropdownMenuTrigger asChild>
                   <Button variant="panel">{handleBgIcon()}</Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-30 bg-gray-700 text-white rounded-lg mt-2 py-3 px-2 cursor-pointer">
-                  <DropdownMenuSeparator />
-                  <DropdownMenuRadioGroup
-                    value={bgIcon}
-                    onValueChange={(value) => {
-                      const bgIcon = stringToBackgroundVariant(value);
-                      if (bgIcon !== undefined) {
-                        setBgIcon(bgIcon);
-                      }
-                    }}
-                  >
-                    {customBgIcons.map((node) => (
-                      <DropdownMenuRadioItem value={node.type} key={node.type}>
-                        <div className="flex flex-row items-center space-x-3 pt-3 hover:bg-gray-600 rounded-lg p-2">
-                          {node.icon}
-                          <div className="text-sm text-gray-100">
-                            {node.type}
-                          </div>
-                        </div>
-                      </DropdownMenuRadioItem>
-                    ))}
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            <p>Background Icon Type</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Background Icon Type</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <DropdownMenuContent className="w-30 bg-gray-700 text-white rounded-lg mt-2 py-3 px-2 cursor-pointer">
+            <DropdownMenuSeparator />
+            <DropdownMenuRadioGroup
+              value={bgIcon}
+              onValueChange={(value) => {
+                const bgIcon = stringToBackgroundVariant(value);
+                if (bgIcon !== undefined) {
+                  setBgIcon(bgIcon);
+                }
+              }}
+            >
+              {customBgIcons.map((node) => (
+                <DropdownMenuRadioItem value={node.type} key={node.type}>
+                  <div className="flex flex-row items-center space-x-3 pt-3 hover:bg-gray-600 rounded-lg p-2">
+                    {node.icon}
+                    <div className="text-sm text-gray-100">{node.type}</div>
+                  </div>
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
       <Input
         type="text"
-        className="w-10"
+        className="w-[50px] h-[40px]"
         value={bgIconSize}
-        onChange={(val) => setBgIconSize(+val.target.value)}
+        onChange={(val) => {
+          setIsEnterPressed(false);
+          setBgIconSize(+val.target.value);
+        }}
+        placeholder="1px"
+        maxLength={3}
       />
       <Popover>
         <PopoverTrigger asChild>
