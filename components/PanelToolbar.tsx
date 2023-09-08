@@ -251,49 +251,69 @@ export default function PanelToolbar(props: Props): ReactElement {
 
   return (
     <div className="flex flex-row items-center space-x-1 bg-gray-700 border border-gray-800 p-1 rounded-lg">
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            className={`w-[38px] h-[38px]`}
-            style={{ backgroundColor: `${bgIconColor}` }}
-            variant="outline"
-          />
-        </PopoverTrigger>
-        <PopoverContent>
-          <HexColorPicker
-            color={bgIconColor}
-            onChange={(color) => setBgIconColor(color)}
-          />
-        </PopoverContent>
-      </Popover>
-
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline">{bgIcon}</Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-30">
-          <DropdownMenuLabel>Icon Type</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuRadioGroup
-            value={bgIcon}
-            onValueChange={(value) => {
-              const bgIcon = stringToBackgroundVariant(value);
-              if (bgIcon !== undefined) {
-                setBgIcon(bgIcon);
-              }
-            }}
-          >
-            {customBgIcons.map((node) => (
-              <DropdownMenuRadioItem value={node.type} key={node.type}>
-                <div className="flex flex-row items-center space-x-3">
-                  {node.icon}
-                  <div className="text-sm text-gray-600">{node.type}</div>
-                </div>
-              </DropdownMenuRadioItem>
-            ))}
-          </DropdownMenuRadioGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div id="bg-icon-color-setter">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="panel">
+                    <PaintBucketIcon className="w-[16px] h-[16px]" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="bg-transparent">
+                  <HexColorPicker
+                    color={bgIconColor}
+                    onChange={(color) => setBgIconColor(color)}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>Background Icon Color</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="panel">{bgIcon}</Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-30 bg-gray-700 text-white rounded-lg mt-2 py-3 px-2 cursor-pointer">
+                  <DropdownMenuSeparator />
+                  <DropdownMenuRadioGroup
+                    value={bgIcon}
+                    onValueChange={(value) => {
+                      const bgIcon = stringToBackgroundVariant(value);
+                      if (bgIcon !== undefined) {
+                        setBgIcon(bgIcon);
+                      }
+                    }}
+                  >
+                    {customBgIcons.map((node) => (
+                      <DropdownMenuRadioItem value={node.type} key={node.type}>
+                        <div className="flex flex-row items-center space-x-3 pt-3 hover:bg-gray-600 rounded-lg p-2">
+                          {node.icon}
+                          <div className="text-sm text-gray-100">
+                            {node.type}
+                          </div>
+                        </div>
+                      </DropdownMenuRadioItem>
+                    ))}
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>Background Icon Type</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <Input
         type="text"
         className="w-10"
@@ -315,9 +335,6 @@ export default function PanelToolbar(props: Props): ReactElement {
           />
         </PopoverContent>
       </Popover>
-      <div id="color-name" className=" text-gray-800 text-sm">
-        {bgColor}
-      </div>
       <div className="bg-gray-500 h-6 w-[1px]" />
       <Button variant="panel" onClick={AddRoundedBox}>
         <BoxIcon />
@@ -351,7 +368,7 @@ export default function PanelToolbar(props: Props): ReactElement {
             </div>
           </TooltipTrigger>
           <TooltipContent side="bottom">
-            <p>Background</p>
+            <p>Node Background</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -378,7 +395,7 @@ export default function PanelToolbar(props: Props): ReactElement {
             </div>
           </TooltipTrigger>
           <TooltipContent side="bottom">
-            <p>Border Color</p>
+            <p>Node Border Color</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -402,7 +419,7 @@ export default function PanelToolbar(props: Props): ReactElement {
             </div>
           </TooltipTrigger>
           <TooltipContent side="bottom">
-            <p>Border Width</p>
+            <p>Node Border Width</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -449,7 +466,7 @@ export default function PanelToolbar(props: Props): ReactElement {
             </Button>
           </TooltipTrigger>
           <TooltipContent side="bottom">
-            <p>Border Radius</p>
+            <p>Node Border Radius</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

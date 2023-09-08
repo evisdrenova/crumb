@@ -22,9 +22,7 @@ import "reactflow/dist/style.css";
 import RoundedBox from "../components/nodes/RoundedBox";
 import Circle from "../components/nodes/Circle";
 import Square from "../components/nodes/Square";
-import SideNav from "@/components/SideNav";
 import PanelToolbar from "@/components/PanelToolbar";
-import { ColorResult } from "react-color";
 
 const nodeTypes: NodeTypes = {
   roundedBox: RoundedBox,
