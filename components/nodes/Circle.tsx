@@ -6,7 +6,6 @@ import {
   Position,
   useKeyPress,
   useNodes,
-  useReactFlow,
   useStore,
 } from "reactflow";
 
@@ -46,14 +45,19 @@ export default function Circle(props: Props) {
         }}
         keepAspectRatio={isShiftPressed ? true : false}
       />
-      <div className="min-w-[30px] min-h-[30px] w-full h-full bg-white rounded-full border border-gray-300">
+      <div className="min-w-[30px] min-h-[30px] w-full h-full rounded-full">
         <NodeToolbar position={Position.Bottom}>
           <div className="bg-blue-600 text-white text-sm rounded-sm px-1">
             {width} x {height}
           </div>
         </NodeToolbar>
-        <Handle type="target" position={Position.Left} />
-        <Handle type="source" position={Position.Right} />
+        <NodeToolbar position={Position.Top}></NodeToolbar>
+        {selected && (
+          <>
+            <Handle type="target" position={Position.Left} />
+            <Handle type="source" position={Position.Right} />
+          </>
+        )}
       </div>
     </>
   );

@@ -20,6 +20,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         navLink:
           "text-primary text-gray-400 hover:text-white border-radius-8 font-normal",
+        tooltip: "text-gray-100 hover:bg-gray-600 hover:text-gray-100",
       },
       size: {
         default: "h-10 px-4 py-2",

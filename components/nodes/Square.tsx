@@ -44,14 +44,18 @@ export default function Square(props: Props) {
         }}
         keepAspectRatio={isShiftPressed ? true : false}
       />
-      <div className="min-w-[100px] min-h-[30px] w-full h-full bg-white border border-gray-300">
+      <div className="min-w-[100px] min-h-[30px] w-full h-full">
         <NodeToolbar position={Position.Bottom}>
           <div className="bg-blue-600 text-white text-sm rounded-sm px-1">
             {width}x{height}
           </div>
         </NodeToolbar>
-        <Handle type="target" position={Position.Left} />
-        <Handle type="source" position={Position.Right} />
+        {selected && (
+          <>
+            <Handle type="target" position={Position.Left} />
+            <Handle type="source" position={Position.Right} />
+          </>
+        )}
       </div>
     </>
   );
