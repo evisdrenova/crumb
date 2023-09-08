@@ -31,6 +31,7 @@ export default function PanelToolbar(props: Props): ReactElement {
   const [nodeBgColor, setNodeBgColor] = useState<string>("");
   const [nodeBorderColor, setNodeBorderColor] = useState<string>("");
   const [nodeBorderWidth, setNodeBorderWidth] = useState<string>("");
+  const [isEnterPressed, setIsEnterPressed] = useState<boolean>(false);
   const { setNodes } = props;
 
   useOnSelectionChange({
@@ -76,23 +77,26 @@ export default function PanelToolbar(props: Props): ReactElement {
   }, [nodeBorderColor, setNodes]);
 
   const HandleNodeBorderWidthUpdate = () => {
-    const updatedNodes = nodes.map((node) => {
-      if (selectedNode) {
-        if (node.id == selectedNode[0]?.id) {
-          node.style = {
-            ...node.style,
-            borderWidth: nodeBorderWidth + "px",
-          };
+    if (isEnterPressed) {
+      //required bc is user goes from 3 digit to 2 digit, the border won't jump
+      const updatedNodes = nodes.map((node) => {
+        if (selectedNode) {
+          if (node.id == selectedNode[0]?.id) {
+            node.style = {
+              ...node.style,
+              borderWidth: nodeBorderWidth + "px",
+            };
+          }
         }
-      }
-      return node;
-    });
-    setNodes(updatedNodes);
+        return node;
+      });
+      setNodes(updatedNodes);
+    }
   };
 
   useEffect(() => {
     HandleNodeBorderWidthUpdate();
-  }, [nodeBorderWidth, setNodes]);
+  }, [nodeBorderWidth, setNodes, isEnterPressed]);
 
   return (
     <div className="flex flex-row items-center space-x-2 bg-gray-700 border border-gray-800 p-1 rounded-lg">
@@ -163,11 +167,20 @@ export default function PanelToolbar(props: Props): ReactElement {
                 <PopoverContent className="bg-transparent">
                   <Input
                     type="text"
-                    className="w-10"
+                    className="w-[50px]"
+                    maxLength={3}
                     value={nodeBorderWidth}
                     onChange={(val) => {
+                      //makes the scaling up and down smooth so that the border with doesn't always
+                      //go back to zero when the user is updating the value
+                      setIsEnterPressed(false);
                       setNodeBorderWidth(val.target.value);
-                      HandleNodeBorderWidthUpdate;
+                    }}
+                    onKeyUp={(event) => {
+                      if (event.key === "Enter") {
+                        setIsEnterPressed(true);
+                        HandleNodeBorderWidthUpdate;
+                      }
                     }}
                   />
                 </PopoverContent>
