@@ -32,6 +32,7 @@ export default function PanelToolbar(props: Props): ReactElement {
   const [nodeBorderColor, setNodeBorderColor] = useState<string>("");
   const [nodeBorderWidth, setNodeBorderWidth] = useState<string>("");
   const [isEnterPressed, setIsEnterPressed] = useState<boolean>(false);
+  const [openBorderWidth, setOpenBorderWidth] = useState<boolean>(false);
   const { setNodes } = props;
 
   useOnSelectionChange({
@@ -158,40 +159,46 @@ export default function PanelToolbar(props: Props): ReactElement {
         <Tooltip>
           <TooltipTrigger asChild>
             <div id="bg-icon-color-setter">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="tooltip">
-                    <BorderWidthIcon />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="bg-transparent">
-                  <Input
-                    type="text"
-                    className="w-[50px]"
-                    maxLength={3}
-                    value={nodeBorderWidth}
-                    onChange={(val) => {
-                      //makes the scaling up and down smooth so that the border with doesn't always
-                      //go back to zero when the user is updating the value
-                      setIsEnterPressed(false);
-                      setNodeBorderWidth(val.target.value);
-                    }}
-                    onKeyUp={(event) => {
-                      if (event.key === "Enter") {
-                        setIsEnterPressed(true);
-                        HandleNodeBorderWidthUpdate;
-                      }
-                    }}
-                  />
-                </PopoverContent>
-              </Popover>
+              <Button
+                variant="tooltip"
+                onClick={() => {
+                  if (!openBorderWidth) {
+                    setOpenBorderWidth(true);
+                  } else {
+                    setOpenBorderWidth(false);
+                  }
+                }}
+              >
+                <BorderWidthIcon />
+              </Button>
             </div>
           </TooltipTrigger>
-          <TooltipContent side="bottom" sideOffset={1}>
+          <TooltipContent side="bottom" sideOffset={20}>
             <p>Border Width</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
+      {openBorderWidth && (
+        <Input
+          type="text"
+          className="w-[50px] h-[40px] focus-visible:ring-0"
+          placeholder="4px"
+          maxLength={3}
+          value={nodeBorderWidth}
+          onChange={(val) => {
+            //makes the scaling up and down smooth so that the border with doesn't always
+            //go back to zero when the user is updating the value
+            setIsEnterPressed(false);
+            setNodeBorderWidth(val.target.value);
+          }}
+          onKeyUp={(event) => {
+            if (event.key === "Enter") {
+              setIsEnterPressed(true);
+              HandleNodeBorderWidthUpdate;
+            }
+          }}
+        />
+      )}
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
