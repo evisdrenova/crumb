@@ -29,9 +29,6 @@ import {
 import { HexColorPicker } from "react-colorful";
 
 interface SideNavProps {
-  addRoundedBox: () => void;
-  addCircle: () => void;
-  addSquare: () => void;
   bgColor: string;
   bgIcon: string;
   bgIconColor: string;
@@ -49,9 +46,6 @@ interface BgIcon {
 
 export default function SideNav(props: SideNavProps): ReactElement {
   const {
-    addRoundedBox,
-    addCircle,
-    addSquare,
     bgIcon,
     setBgColor,
     bgIconColor,
@@ -90,15 +84,6 @@ export default function SideNav(props: SideNavProps): ReactElement {
       className="flex flex-col space-y-3 pt-20 border-r-2 border-r-gray-300 p-10"
       id="tools-bar"
     >
-      <Button variant="outline" onClick={addRoundedBox}>
-        <BoxIcon />
-      </Button>
-      <Button variant="outline" onClick={addSquare}>
-        <SquareIcon />
-      </Button>
-      <Button variant="outline" onClick={addCircle}>
-        <CircleIcon />
-      </Button>
       <div className="flex flex-col pt-5">
         <div className="text-gray-600 text-sm">Background</div>
         <div className="text-xs">Icon</div>

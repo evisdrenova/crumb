@@ -1,7 +1,13 @@
 import {
   BorderAllIcon,
   BorderWidthIcon,
+  BoxIcon,
+  CircleIcon,
   CornersIcon,
+  DragHandleDots2Icon,
+  GridIcon,
+  PlusIcon,
+  SquareIcon,
 } from "@radix-ui/react-icons";
 import {
   Popover,
@@ -17,12 +23,40 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "./ui/button";
 import { ReactElement, useEffect, useState } from "react";
-import { Node, useNodes, useOnSelectionChange, useStore } from "reactflow";
+import {
+  BackgroundVariant,
+  Node,
+  useNodes,
+  useOnSelectionChange,
+  useStore,
+} from "reactflow";
 import { HexColorPicker } from "react-colorful";
 import { Input } from "./ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
 
 interface Props {
   setNodes: (nodes: Node[]) => void;
+  bgColor: string;
+  bgIcon: string;
+  bgIconColor: string;
+  setBgIcon: (val: BackgroundVariant) => void;
+  setBgIconSize: (val: number) => void;
+  setBgColor: (val: string) => void;
+  bgIconSize: number;
+  setBgIconColor: (val: string) => void;
+}
+
+interface BgIcon {
+  icon: JSX.Element;
+  type: BackgroundVariant;
 }
 
 export default function PanelToolbar(props: Props): ReactElement {
@@ -35,7 +69,18 @@ export default function PanelToolbar(props: Props): ReactElement {
   const [openBorderWidth, setOpenBorderWidth] = useState<boolean>(false);
   const [openBorderRadius, setOpenBorderRadius] = useState<boolean>(false);
   const [nodeBorderRadius, setNodeBorderRadius] = useState<string>("");
-  const { setNodes } = props;
+  const [id, setId] = useState<number>(1);
+  const {
+    setNodes,
+    bgIcon,
+    setBgColor,
+    bgIconColor,
+    setBgIconColor,
+    bgIconSize,
+    setBgIcon,
+    bgColor,
+    setBgIconSize,
+  } = props;
 
   useOnSelectionChange({
     onChange: ({ nodes, edges }) => setSelectedNode(nodes),
@@ -103,7 +148,7 @@ export default function PanelToolbar(props: Props): ReactElement {
 
   const HandleNodeBorderRadiusUpdate = () => {
     if (isEnterPressed) {
-      //required bc is user goes from 3 digit to 2 digit, the border won't jump
+      // isEnterPressed check here is required bc is user goes from 3 digit to 2 digit, the border won't jump
       const updatedNodes = nodes.map((node) => {
         if (selectedNode) {
           if (node.id == selectedNode[0]?.id) {
@@ -119,22 +164,177 @@ export default function PanelToolbar(props: Props): ReactElement {
     }
   };
 
+  const addCircle = () => {
+    const currNodes = nodes;
+    const newNode = {
+      id: `${id}`,
+      type: "circle",
+      data: [],
+      position: { x: 250, y: 100 },
+      style: {
+        //default styles
+        borderRadius: "50%",
+        background: "#d9d9d9",
+        borderColor: "#BEBEBE",
+        borderWidth: "1px",
+      },
+    };
+    setNodes([...currNodes, newNode]);
+    setId(id + 1);
+  };
+
+  const AddSquare = () => {
+    const currNodes = nodes;
+    const newNode = {
+      id: `${id}`,
+      type: "square",
+      data: [],
+      position: { x: 250, y: 100 },
+      style: {
+        //default styles
+        borderRadius: "0%",
+        background: "#d9d9d9",
+        borderColor: "#BEBEBE",
+        borderWidth: "1px",
+      },
+    };
+    setNodes([newNode, ...currNodes]);
+    setId(id + 1);
+  };
+
+  const AddRoundedBox = () => {
+    const currNodes = nodes;
+    const newNode = {
+      id: `${id}`,
+      type: "roundedBox",
+      data: [],
+      position: { x: 100, y: 100 },
+      style: {
+        //default styles
+        borderRadius: ".5rem",
+        background: "#d9d9d9",
+        borderColor: "#BEBEBE",
+        borderWidth: "1px",
+      },
+    };
+    setNodes([newNode, ...currNodes]);
+    setId(id + 1);
+  };
+
   useEffect(() => {
     HandleNodeBorderRadiusUpdate();
   }, [nodeBorderRadius, setNodes, isEnterPressed]);
 
+  const customBgIcons: BgIcon[] = [
+    { icon: <GridIcon />, type: BackgroundVariant.Lines },
+    {
+      icon: <DragHandleDots2Icon />,
+      type: BackgroundVariant.Dots,
+    },
+    { icon: <PlusIcon />, type: BackgroundVariant.Cross },
+  ];
+
+  function stringToBackgroundVariant(
+    value: string
+  ): BackgroundVariant | undefined {
+    switch (value) {
+      case "lines":
+        return BackgroundVariant.Lines;
+      case "dots":
+        return BackgroundVariant.Dots;
+      case "cross":
+        return BackgroundVariant.Cross;
+      default:
+        return undefined; // Return undefined for invalid values
+    }
+  }
+
   return (
-    <div className="flex flex-row items-center space-x-2 bg-gray-700 border border-gray-800 p-1 rounded-lg">
+    <div className="flex flex-row items-center space-x-1 bg-gray-700 border border-gray-800 p-1 rounded-lg">
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            className={`w-[38px] h-[38px]`}
+            style={{ backgroundColor: `${bgIconColor}` }}
+            variant="outline"
+          />
+        </PopoverTrigger>
+        <PopoverContent>
+          <HexColorPicker
+            color={bgIconColor}
+            onChange={(color) => setBgIconColor(color)}
+          />
+        </PopoverContent>
+      </Popover>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline">{bgIcon}</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-30">
+          <DropdownMenuLabel>Icon Type</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuRadioGroup
+            value={bgIcon}
+            onValueChange={(value) => {
+              const bgIcon = stringToBackgroundVariant(value);
+              if (bgIcon !== undefined) {
+                setBgIcon(bgIcon);
+              }
+            }}
+          >
+            {customBgIcons.map((node) => (
+              <DropdownMenuRadioItem value={node.type} key={node.type}>
+                <div className="flex flex-row items-center space-x-3">
+                  {node.icon}
+                  <div className="text-sm text-gray-600">{node.type}</div>
+                </div>
+              </DropdownMenuRadioItem>
+            ))}
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <Input
+        type="text"
+        className="w-10"
+        value={bgIconSize}
+        onChange={(val) => setBgIconSize(+val.target.value)}
+      />
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            className={`w-[38px] h-[38px] border border-gray-400`}
+            style={{ backgroundColor: `${bgColor}` }}
+            variant="outline"
+          />
+        </PopoverTrigger>
+        <PopoverContent>
+          <HexColorPicker
+            color={bgColor}
+            onChange={(color) => setBgColor(color)}
+          />
+        </PopoverContent>
+      </Popover>
+      <div id="color-name" className=" text-gray-800 text-sm">
+        {bgColor}
+      </div>
+      <div className="bg-gray-500 h-6 w-[1px]" />
+      <Button variant="panel" onClick={AddRoundedBox}>
+        <BoxIcon />
+      </Button>
+      <Button variant="panel" onClick={AddSquare}>
+        <SquareIcon />
+      </Button>
+      <Button variant="panel" onClick={addCircle}>
+        <CircleIcon />
+      </Button>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
             <div id="bg-icon-color-setter">
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button
-                    variant="tooltip"
-                    disabled={selectedNode?.length == 0}
-                  >
+                  <Button variant="panel" disabled={selectedNode?.length == 0}>
                     <PaintBucketIcon className="w-[16px] h-[16px]" />
                   </Button>
                 </PopoverTrigger>
@@ -161,10 +361,7 @@ export default function PanelToolbar(props: Props): ReactElement {
             <div id="bg-icon-color-setter">
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button
-                    variant="tooltip"
-                    disabled={selectedNode?.length == 0}
-                  >
+                  <Button variant="panel" disabled={selectedNode?.length == 0}>
                     <BorderAllIcon />
                   </Button>
                 </PopoverTrigger>
@@ -190,7 +387,7 @@ export default function PanelToolbar(props: Props): ReactElement {
           <TooltipTrigger asChild>
             <div id="bg-icon-color-setter">
               <Button
-                variant="tooltip"
+                variant="panel"
                 disabled={selectedNode?.length == 0}
                 onClick={() => {
                   if (!openBorderWidth) {
@@ -235,7 +432,7 @@ export default function PanelToolbar(props: Props): ReactElement {
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              variant="tooltip"
+              variant="panel"
               disabled={
                 (selectedNode && selectedNode[0]?.type == "circle") ||
                 selectedNode?.length == 0
