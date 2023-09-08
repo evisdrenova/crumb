@@ -39,13 +39,13 @@ export default function RoundedBox(props: Props) {
         color="#6486FF"
         isVisible={selected}
         minWidth={100}
-        minHeight={30}
+        minHeight={50}
         onResize={() => {
           updateSizeCoordinates();
         }}
         keepAspectRatio={isShiftPressed ? true : false}
       />
-      <div className="min-w-[100px] min-h-[30px] w-full h-full bg-white rounded-xl border border-gray-300">
+      <div className="min-w-[100px] min-h-[30px] w-full h-full border rounded-lg border-gray-300">
         <NodeToolbar position={Position.Bottom}>
           <div className="bg-blue-600 text-white text-sm rounded-sm px-1">
             {width}x{height}

@@ -38,7 +38,10 @@ export default function PanelToolbar(props: Props): ReactElement {
     const updatedNodes = nodes.map((node) => {
       if (selectedNode) {
         if (node.id == selectedNode[0]?.id) {
-          node.style = { ...node.style, background: bgColor };
+          node.style = {
+            ...node.style,
+            background: bgColor,
+          };
         }
       }
       return node;

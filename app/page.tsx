@@ -50,7 +50,7 @@ export default function Home() {
       type: "circle",
       data: [],
       position: { x: 250, y: 100 },
-      style: { background: "red" },
+      style: { borderRadius: "50%", background: "#d9d9d9" },
     };
     setNodes([...currNodes, newNode]);
     setId(id + 1);
@@ -62,10 +62,12 @@ export default function Home() {
       type: "square",
       data: [],
       position: { x: 250, y: 100 },
+      style: { borderRadius: "0%", background: "#d9d9d9" },
     };
     setNodes([newNode, ...currNodes]);
     setId(id + 1);
   };
+
   const AddRoundedBox = () => {
     const currNodes = nodes;
     const newNode = {
@@ -73,6 +75,7 @@ export default function Home() {
       type: "roundedBox",
       data: [],
       position: { x: 100, y: 100 },
+      style: { borderRadius: ".5rem", background: "#d9d9d9" },
     };
     setNodes([newNode, ...currNodes]);
     setId(id + 1);
@@ -92,8 +95,6 @@ export default function Home() {
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
-
-  console.log("bg color", bgColor);
 
   return (
     <div className="flex flex-row w-full">
