@@ -276,15 +276,15 @@ export default function PanelToolbar(props: Props): ReactElement {
                 </PopoverTrigger>
                 <PopoverContent className="bg-transparent">
                   <HexColorPicker
-                    color={bgIconColor}
-                    onChange={(color) => setBgIconColor(color)}
+                    color={bgColor}
+                    onChange={(color) => setBgColor(color)}
                   />
                 </PopoverContent>
               </Popover>
             </div>
           </TooltipTrigger>
           <TooltipContent side="bottom">
-            <p>Background Icon Color</p>
+            <p>Canvas Color</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -356,21 +356,30 @@ export default function PanelToolbar(props: Props): ReactElement {
           }}
         />
       )}
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            className={`w-[38px] h-[38px] border border-gray-400`}
-            style={{ backgroundColor: `${bgColor}` }}
-            variant="outline"
-          />
-        </PopoverTrigger>
-        <PopoverContent>
-          <HexColorPicker
-            color={bgColor}
-            onChange={(color) => setBgColor(color)}
-          />
-        </PopoverContent>
-      </Popover>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div id="bg-icon-color-setter">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="panel">
+                    <PaintBucketIcon className="w-[16px] h-[16px]" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="bg-transparent">
+                  <HexColorPicker
+                    color={bgIconColor}
+                    onChange={(color) => setBgIconColor(color)}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>Background Icon Color</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <div className="bg-gray-500 h-6 w-[1px]" />
       <Button variant="panel" onClick={AddRoundedBox}>
         <BoxIcon />
