@@ -2,6 +2,7 @@ import {
   BorderAllIcon,
   BorderWidthIcon,
   BoxIcon,
+  BoxModelIcon,
   CircleIcon,
   CornersIcon,
   DragHandleDots2Icon,
@@ -69,6 +70,7 @@ export default function PanelToolbar(props: Props): ReactElement {
   const [openBorderWidth, setOpenBorderWidth] = useState<boolean>(false);
   const [openBorderRadius, setOpenBorderRadius] = useState<boolean>(false);
   const [nodeBorderRadius, setNodeBorderRadius] = useState<string>("");
+  const [openCanvasIconWidth, setCanvasIconWidth] = useState<boolean>(false);
   const [id, setId] = useState<number>(1);
   const {
     setNodes,
@@ -323,17 +325,37 @@ export default function PanelToolbar(props: Props): ReactElement {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <Input
-        type="text"
-        className="w-[50px] h-[40px]"
-        value={bgIconSize}
-        onChange={(val) => {
-          setIsEnterPressed(false);
-          setBgIconSize(+val.target.value);
+      <Button
+        variant="panel"
+        onClick={() => {
+          if (!openCanvasIconWidth) {
+            setCanvasIconWidth(true);
+          } else {
+            setCanvasIconWidth(false);
+          }
         }}
-        placeholder="1px"
-        maxLength={3}
-      />
+      >
+        <BorderWidthIcon />
+      </Button>
+      {openCanvasIconWidth && (
+        <Input
+          type="text"
+          className="w-[50px] h-[40px]"
+          value={bgIconSize}
+          onChange={(val) => {
+            setIsEnterPressed(false);
+            setBgIconSize(+val.target.value);
+          }}
+          placeholder="1px"
+          maxLength={3}
+          onKeyUp={(event) => {
+            if (event.key === "Enter") {
+              setIsEnterPressed(true);
+              setCanvasIconWidth(false);
+            }
+          }}
+        />
+      )}
       <Popover>
         <PopoverTrigger asChild>
           <Button
