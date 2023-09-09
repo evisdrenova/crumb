@@ -36,11 +36,11 @@ interface Props {
   bgColor: string;
   bgIcon: string;
   bgIconColor: string;
+  bgIconSize: number;
   setBgIcon: (val: BackgroundVariant) => void;
   setBgColor: (val: string) => void;
   setBgIconColor: (val: string) => void;
   setBgIconSize: (val: number) => void;
-  bgIconSize: number;
 }
 
 interface BgIcon {
@@ -62,7 +62,6 @@ export default function CanvasSettings(props: Props): ReactElement {
   } = props;
 
   const [openCanvasIconWidth, setCanvasIconWidth] = useState<boolean>(false);
-  const [isEnterPressed, setIsEnterPressed] = useState<boolean>(false);
 
   function stringToBackgroundVariant(
     value: string
@@ -189,14 +188,12 @@ export default function CanvasSettings(props: Props): ReactElement {
             className="w-[50px] h-[40px]"
             value={bgIconSize}
             onChange={(val) => {
-              setIsEnterPressed(false);
               setBgIconSize(+val.target.value);
             }}
             placeholder="1px"
             maxLength={3}
             onKeyUp={(event) => {
               if (event.key === "Enter") {
-                setIsEnterPressed(true);
                 setCanvasIconWidth(false);
               }
             }}
