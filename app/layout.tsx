@@ -15,10 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="flex flex-col w-full bg-[#f6f6f6]" id="main">
-          <TopNav />
-          <div className="flex w-full h-full bg-[#f6f6f6]">{children}</div>
-        </div>
+        <div className="flex w-full h-full bg-[#f6f6f6]">{children}</div>
       </body>
     </html>
   );
