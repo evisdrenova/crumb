@@ -1,7 +1,7 @@
 "use client";
-import { ReactElement, forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { BoxIcon, CircleIcon, PaintBucketIcon, SquareIcon } from "lucide-react";
+import { CircleIcon, PaintBucketIcon } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -17,10 +17,12 @@ import {
 import {
   BorderAllIcon,
   BorderWidthIcon,
+  SquareIcon,
+  BoxIcon,
   CornersIcon,
 } from "@radix-ui/react-icons";
 import { Input } from "../ui/input";
-import { Node, useNodes } from "reactflow";
+import { Edge, Node, useNodes, useOnSelectionChange } from "reactflow";
 
 interface Props {
   setNodes: (nodes: Node[]) => void;
@@ -177,6 +179,12 @@ export default function ShapeSettings(props: Props) {
   useEffect(() => {
     HandleNodeBorderColorUpdate();
   }, [nodeBorderColor, setNodes]);
+
+  useOnSelectionChange({
+    onChange: ({ nodes, edges }: { nodes: Node[]; edges: Edge[] }): void => {
+      console.log("changed selection", nodes, edges);
+    },
+  });
 
   return (
     <div className="flex flex-row items-center">
