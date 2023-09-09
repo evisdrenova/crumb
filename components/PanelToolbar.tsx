@@ -2,11 +2,11 @@ import {
   BorderAllIcon,
   BorderWidthIcon,
   BoxIcon,
-  BoxModelIcon,
   CircleIcon,
   CornersIcon,
   DragHandleDots2Icon,
   GridIcon,
+  HamburgerMenuIcon,
   PlusIcon,
   SquareIcon,
 } from "@radix-ui/react-icons";
@@ -27,9 +27,9 @@ import { ReactElement, useEffect, useState } from "react";
 import {
   BackgroundVariant,
   Node,
+  useKeyPress,
   useNodes,
   useOnSelectionChange,
-  useStore,
 } from "reactflow";
 import { HexColorPicker } from "react-colorful";
 import { Input } from "./ui/input";
@@ -72,6 +72,7 @@ export default function PanelToolbar(props: Props): ReactElement {
   const [nodeBorderRadius, setNodeBorderRadius] = useState<string>("");
   const [openCanvasIconWidth, setCanvasIconWidth] = useState<boolean>(false);
   const [id, setId] = useState<number>(1);
+
   const {
     setNodes,
     bgIcon,
@@ -83,10 +84,6 @@ export default function PanelToolbar(props: Props): ReactElement {
     bgColor,
     setBgIconSize,
   } = props;
-
-  useOnSelectionChange({
-    onChange: ({ nodes, edges }) => setSelectedNode(nodes),
-  });
 
   const HandleBgUpdate = () => {
     const updatedNodes = nodes.map((node) => {
@@ -264,6 +261,18 @@ export default function PanelToolbar(props: Props): ReactElement {
 
   return (
     <div className="flex flex-row items-center space-x-1 bg-gray-700 border border-gray-800 p-1 rounded-lg">
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="panel">
+              <HamburgerMenuIcon className="w-[16px] h-[16px]" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>Menu</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
