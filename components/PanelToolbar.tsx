@@ -24,23 +24,10 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "./ui/button";
 import { ReactElement, useEffect, useState } from "react";
-import {
-  BackgroundVariant,
-  Node,
-  useKeyPress,
-  useNodes,
-  useOnSelectionChange,
-} from "reactflow";
+import { BackgroundVariant, Node, useNodes } from "reactflow";
 import { HexColorPicker } from "react-colorful";
 import { Input } from "./ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
+import BackgroundSettings from "./panel/BackgroundSettings";
 
 interface Props {
   setNodes: (nodes: Node[]) => void;
@@ -224,116 +211,14 @@ export default function PanelToolbar(props: Props): ReactElement {
     HandleNodeBorderRadiusUpdate();
   }, [nodeBorderRadius, setNodes, isEnterPressed]);
 
-  const customBgIcons: BgIcon[] = [
-    { icon: <GridIcon />, type: BackgroundVariant.Lines, name: "grid" },
-    {
-      icon: <DragHandleDots2Icon />,
-      type: BackgroundVariant.Dots,
-      name: "dots",
-    },
-    { icon: <PlusIcon />, type: BackgroundVariant.Cross, name: "cross" },
-  ];
-
-  function stringToBackgroundVariant(
-    value: string
-  ): BackgroundVariant | undefined {
-    switch (value) {
-      case "lines":
-        return BackgroundVariant.Lines;
-      case "dots":
-        return BackgroundVariant.Dots;
-      case "cross":
-        return BackgroundVariant.Cross;
-      default:
-        return undefined; // Return undefined for invalid values
-    }
-  }
-
-  const handleBgIcon = (): JSX.Element => {
-    const icon = customBgIcons.find((icon) => icon.name == bgIcon);
-    return (
-      <div className="flex flex-row items-center gap-2 hover:bg-gray-600 rounded-lg text-md font-light">
-        {icon?.icon}
-        {icon?.type}
-      </div>
-    );
-  };
-
   return (
     <div className="flex flex-row items-center space-x-1 bg-gray-700 border border-gray-800 p-1 rounded-lg">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="panel">
-              <HamburgerMenuIcon className="w-[16px] h-[16px]" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            <p>Menu</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div id="bg-icon-color-setter">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="panel">
-                    <PaintBucketIcon className="w-[16px] h-[16px]" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="bg-transparent">
-                  <HexColorPicker
-                    color={bgColor}
-                    onChange={(color) => setBgColor(color)}
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            <p>Canvas Color</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-      <div>
-        <DropdownMenu>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="panel">{handleBgIcon()}</Button>
-                </DropdownMenuTrigger>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>Background Icon Type</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <DropdownMenuContent className="w-30 bg-gray-700 text-white rounded-lg mt-2 py-3 px-2 cursor-pointer">
-            <DropdownMenuSeparator />
-            <DropdownMenuRadioGroup
-              value={bgIcon}
-              onValueChange={(value) => {
-                const bgIcon = stringToBackgroundVariant(value);
-                if (bgIcon !== undefined) {
-                  setBgIcon(bgIcon);
-                }
-              }}
-            >
-              {customBgIcons.map((node) => (
-                <DropdownMenuRadioItem value={node.type} key={node.type}>
-                  <div className="flex flex-row items-center space-x-3 pt-3 hover:bg-gray-600 rounded-lg p-2">
-                    {node.icon}
-                    <div className="text-sm text-gray-100">{node.type}</div>
-                  </div>
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+      <BackgroundSettings
+        bgColor={bgColor}
+        setBgColor={setBgColor}
+        bgIcon={bgIcon}
+        setBgIcon={setBgIcon}
+      />
       <Button
         variant="panel"
         onClick={() => {
