@@ -1,4 +1,5 @@
-import { ReactElement } from "react";
+"use client";
+import { ReactElement, forwardRef } from "react";
 import { BackgroundVariant, Node } from "reactflow";
 import CanvasSettings from "./panel/CanvasSettings";
 import ShapeSettings from "./panel/ShapeSettings";
@@ -14,8 +15,7 @@ interface Props {
   bgIconSize: number;
   setBgIconColor: (val: string) => void;
 }
-
-export default function PanelToolbar(props: Props): ReactElement {
+const PanelToolbar = (props: Props) => {
   const {
     setNodes,
     bgIcon,
@@ -43,4 +43,6 @@ export default function PanelToolbar(props: Props): ReactElement {
       <ShapeSettings setNodes={setNodes} />
     </div>
   );
-}
+};
+
+export default PanelToolbar;

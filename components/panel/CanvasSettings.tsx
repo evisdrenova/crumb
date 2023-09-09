@@ -1,9 +1,9 @@
+"use client";
 import {
   BorderWidthIcon,
   DragHandleDots2Icon,
   GridIcon,
   HamburgerMenuIcon,
-  InputIcon,
   PlusIcon,
 } from "@radix-ui/react-icons";
 import {
@@ -19,7 +19,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Button } from "../ui/button";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, forwardRef, useState } from "react";
 import { BackgroundVariant } from "reactflow";
 import { HexColorPicker } from "react-colorful";
 import {
@@ -49,92 +49,92 @@ interface BgIcon {
   name: string;
 }
 
-export default function CanvasSettings(props: Props): ReactElement {
-  const {
-    bgIcon,
-    bgIconSize,
-    setBgColor,
-    setBgIcon,
-    bgColor,
-    bgIconColor,
-    setBgIconColor,
-    setBgIconSize,
-  } = props;
+const CanvasSettings = forwardRef<HTMLDivElement, Props>(
+  (props: Props, innerRef) => {
+    const {
+      bgIcon,
+      bgIconSize,
+      setBgColor,
+      setBgIcon,
+      bgColor,
+      bgIconColor,
+      setBgIconColor,
+      setBgIconSize,
+    } = props;
 
-  const [openCanvasIconWidth, setCanvasIconWidth] = useState<boolean>(false);
+    const [openCanvasIconWidth, setCanvasIconWidth] = useState<boolean>(false);
 
-  function stringToBackgroundVariant(
-    value: string
-  ): BackgroundVariant | undefined {
-    switch (value) {
-      case "lines":
-        return BackgroundVariant.Lines;
-      case "dots":
-        return BackgroundVariant.Dots;
-      case "cross":
-        return BackgroundVariant.Cross;
-      default:
-        return undefined; // Return undefined for invalid values
+    function stringToBackgroundVariant(
+      value: string
+    ): BackgroundVariant | undefined {
+      switch (value) {
+        case "lines":
+          return BackgroundVariant.Lines;
+        case "dots":
+          return BackgroundVariant.Dots;
+        case "cross":
+          return BackgroundVariant.Cross;
+        default:
+          return undefined; // Return undefined for invalid values
+      }
     }
-  }
 
-  const customBgIcons: BgIcon[] = [
-    { icon: <GridIcon />, type: BackgroundVariant.Lines, name: "grid" },
-    {
-      icon: <DragHandleDots2Icon />,
-      type: BackgroundVariant.Dots,
-      name: "dots",
-    },
-    { icon: <PlusIcon />, type: BackgroundVariant.Cross, name: "cross" },
-  ];
+    const customBgIcons: BgIcon[] = [
+      { icon: <GridIcon />, type: BackgroundVariant.Lines, name: "grid" },
+      {
+        icon: <DragHandleDots2Icon />,
+        type: BackgroundVariant.Dots,
+        name: "dots",
+      },
+      { icon: <PlusIcon />, type: BackgroundVariant.Cross, name: "cross" },
+    ];
 
-  const handleBgIcon = (): JSX.Element => {
-    const icon = customBgIcons.find((icon) => icon.name == bgIcon);
+    const handleBgIcon = (): JSX.Element => {
+      const icon = customBgIcons.find((icon) => icon.name == bgIcon);
+      return (
+        <div className="flex flex-row items-center gap-2 hover:bg-gray-600 rounded-lg text-md font-light">
+          {icon?.icon}
+          {icon?.type}
+        </div>
+      );
+    };
+
     return (
-      <div className="flex flex-row items-center gap-2 hover:bg-gray-600 rounded-lg text-md font-light">
-        {icon?.icon}
-        {icon?.type}
-      </div>
-    );
-  };
-
-  return (
-    <div className="flex flex-row items-center space-x-1 ">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="panel">
-              <HamburgerMenuIcon className="w-[16px] h-[16px]" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            <p>Menu</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="panel">
-                  <PaintBucketIcon className="w-[16px] h-[16px]" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="bg-transparent">
-                <HexColorPicker
-                  color={bgColor}
-                  onChange={(color) => setBgColor(color)}
-                />
-              </PopoverContent>
-            </Popover>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            <p>Canvas Color</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-      <div>
+      <div className="flex flex-row items-center space-x-1 " ref={innerRef}>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="panel">
+                <HamburgerMenuIcon className="w-[16px] h-[16px]" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" sideOffset={5}>
+              <p>Menu</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="panel">
+                    <PaintBucketIcon className="w-[16px] h-[16px]" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="bg-transparent">
+                  <HexColorPicker
+                    color={bgColor}
+                    onChange={(color) => setBgColor(color)}
+                  />
+                </PopoverContent>
+              </Popover>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" sideOffset={5}>
+              <p>Canvas Color</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <DropdownMenu>
           <TooltipProvider>
             <Tooltip>
@@ -143,7 +143,7 @@ export default function CanvasSettings(props: Props): ReactElement {
                   <Button variant="panel">{handleBgIcon()}</Button>
                 </DropdownMenuTrigger>
               </TooltipTrigger>
-              <TooltipContent side="bottom">
+              <TooltipContent side="bottom" sideOffset={5}>
                 <p>Background Icon Type</p>
               </TooltipContent>
             </Tooltip>
@@ -218,12 +218,14 @@ export default function CanvasSettings(props: Props): ReactElement {
                 </Popover>
               </div>
             </TooltipTrigger>
-            <TooltipContent side="bottom">
+            <TooltipContent side="bottom" sideOffset={5}>
               <p>Background Icon Color</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </div>
-    </div>
-  );
-}
+    );
+  }
+);
+
+export default CanvasSettings;
