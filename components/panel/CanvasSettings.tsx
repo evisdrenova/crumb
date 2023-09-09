@@ -1,7 +1,9 @@
 import {
+  BorderWidthIcon,
   DragHandleDots2Icon,
   GridIcon,
   HamburgerMenuIcon,
+  InputIcon,
   PlusIcon,
 } from "@radix-ui/react-icons";
 import {
@@ -16,7 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Button } from "./../ui/button";
+import { Button } from "../ui/button";
 import { ReactElement, useEffect, useState } from "react";
 import { BackgroundVariant } from "reactflow";
 import { HexColorPicker } from "react-colorful";
@@ -28,12 +30,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
+import { Input } from "../ui/input";
 
 interface Props {
   bgColor: string;
   bgIcon: string;
+  bgIconColor: string;
   setBgIcon: (val: BackgroundVariant) => void;
   setBgColor: (val: string) => void;
+  setBgIconColor: (val: string) => void;
+  setBgIconSize: (val: number) => void;
+  bgIconSize: number;
 }
 
 interface BgIcon {
@@ -42,8 +49,20 @@ interface BgIcon {
   name: string;
 }
 
-export default function BackgroundSettings(props: Props): ReactElement {
-  const { bgIcon, setBgColor, setBgIcon, bgColor } = props;
+export default function CanvasSettings(props: Props): ReactElement {
+  const {
+    bgIcon,
+    bgIconSize,
+    setBgColor,
+    setBgIcon,
+    bgColor,
+    bgIconColor,
+    setBgIconColor,
+    setBgIconSize,
+  } = props;
+
+  const [openCanvasIconWidth, setCanvasIconWidth] = useState<boolean>(false);
+  const [isEnterPressed, setIsEnterPressed] = useState<boolean>(false);
 
   function stringToBackgroundVariant(
     value: string
@@ -97,21 +116,19 @@ export default function BackgroundSettings(props: Props): ReactElement {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <div id="bg-icon-color-setter">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="panel">
-                    <PaintBucketIcon className="w-[16px] h-[16px]" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="bg-transparent">
-                  <HexColorPicker
-                    color={bgColor}
-                    onChange={(color) => setBgColor(color)}
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="panel">
+                  <PaintBucketIcon className="w-[16px] h-[16px]" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="bg-transparent">
+                <HexColorPicker
+                  color={bgColor}
+                  onChange={(color) => setBgColor(color)}
+                />
+              </PopoverContent>
+            </Popover>
           </TooltipTrigger>
           <TooltipContent side="bottom">
             <p>Canvas Color</p>
@@ -154,6 +171,61 @@ export default function BackgroundSettings(props: Props): ReactElement {
             </DropdownMenuRadioGroup>
           </DropdownMenuContent>
         </DropdownMenu>
+        <Button
+          variant="panel"
+          onClick={() => {
+            if (!openCanvasIconWidth) {
+              setCanvasIconWidth(true);
+            } else {
+              setCanvasIconWidth(false);
+            }
+          }}
+        >
+          <BorderWidthIcon />
+        </Button>
+        {openCanvasIconWidth && (
+          <Input
+            type="text"
+            className="w-[50px] h-[40px]"
+            value={bgIconSize}
+            onChange={(val) => {
+              setIsEnterPressed(false);
+              setBgIconSize(+val.target.value);
+            }}
+            placeholder="1px"
+            maxLength={3}
+            onKeyUp={(event) => {
+              if (event.key === "Enter") {
+                setIsEnterPressed(true);
+                setCanvasIconWidth(false);
+              }
+            }}
+          />
+        )}
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div id="bg-icon-color-setter">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="panel">
+                      <PaintBucketIcon className="w-[16px] h-[16px]" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="bg-transparent">
+                    <HexColorPicker
+                      color={bgIconColor}
+                      onChange={(color) => setBgIconColor(color)}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">
+              <p>Background Icon Color</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   );
