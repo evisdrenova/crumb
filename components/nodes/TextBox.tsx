@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
+  Edge,
   Handle,
+  Node,
   NodeResizer,
   NodeToolbar,
   Position,
@@ -8,13 +10,14 @@ import {
   useNodes,
   useStore,
 } from "reactflow";
+import { Textarea } from "../ui/textarea";
 
 interface Props {
   id: string;
   selected: boolean;
 }
 
-export default function Circle(props: Props) {
+export default function TextBox(props: Props) {
   const isShiftPressed = useKeyPress("Shift");
   const { id, selected } = props;
   const size = useStore((s) => {
@@ -45,14 +48,18 @@ export default function Circle(props: Props) {
         }}
         keepAspectRatio={isShiftPressed ? true : false}
       />
-      <div className="min-w-[30px] min-h-[30px] w-full h-full rounded-full">
+      <div className="min-w-[30px] min-h-[30px] w-full h-full">
+        <Textarea
+          placeholder="Type your message here."
+          className="focus-visible:ring-0 bg-transparent border-0"
+        />
+
         <NodeToolbar position={Position.Bottom}>
           <div className="bg-blue-600 text-white text-sm rounded-sm px-1">
             {width} x {height}
           </div>
         </NodeToolbar>
         <NodeToolbar position={Position.Top}></NodeToolbar>
-
         <>
           <Handle type="target" position={Position.Left} />
           <Handle type="source" position={Position.Right} />

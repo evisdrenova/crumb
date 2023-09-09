@@ -22,12 +22,14 @@ import "reactflow/dist/style.css";
 import RoundedBox from "../components/nodes/RoundedBox";
 import Circle from "../components/nodes/Circle";
 import Square from "../components/nodes/Square";
+import TextBox from "@/components/nodes/TextBox";
 import PanelToolbar from "@/components/PanelToolbar";
 
 const nodeTypes: NodeTypes = {
   roundedBox: RoundedBox,
   circle: Circle,
   square: Square,
+  text: TextBox,
 };
 
 export default function Home() {

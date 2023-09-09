@@ -17,4 +17,5 @@ Crumb is an interacive, node-based diagram creator that enables anyone to create
 - support simple and advanced floating edges
 - support edge labels
 - refactor the shape settings component into smaller components
-- implement text
+- implement text box component, fonts, font sizers, font colors, the fill for the textbox is just the ltters
+- create a custom tooltip component that takes in children and the tooltip as a prop

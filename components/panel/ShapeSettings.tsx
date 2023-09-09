@@ -20,6 +20,7 @@ import {
   SquareIcon,
   BoxIcon,
   CornersIcon,
+  TextIcon,
 } from "@radix-ui/react-icons";
 import { Input } from "../ui/input";
 import { Edge, Node, useNodes, useOnSelectionChange } from "reactflow";
@@ -93,6 +94,19 @@ export default function ShapeSettings(props: Props) {
         borderColor: "#BEBEBE",
         borderWidth: "1px",
       },
+    };
+    setNodes([newNode, ...currNodes]);
+    setId(id + 1);
+  };
+
+  const addTextAreaNode = () => {
+    const currNodes = nodes;
+    const newNode = {
+      id: `${id}`,
+      type: "text",
+      data: [],
+      position: { x: 100, y: 100 },
+      style: { borderWidth: "0px" },
     };
     setNodes([newNode, ...currNodes]);
     setId(id + 1);
@@ -180,12 +194,6 @@ export default function ShapeSettings(props: Props) {
     HandleNodeBorderColorUpdate();
   }, [nodeBorderColor, setNodes]);
 
-  useOnSelectionChange({
-    onChange: ({ nodes, edges }: { nodes: Node[]; edges: Edge[] }): void => {
-      console.log("changed selection", nodes, edges);
-    },
-  });
-
   return (
     <div className="flex flex-row items-center">
       <div className="bg-gray-500 h-6 w-[1px]" />
@@ -197,6 +205,9 @@ export default function ShapeSettings(props: Props) {
       </Button>
       <Button variant="panel" onClick={addCircle}>
         <CircleIcon className="w-[16px] h-[16px]" />
+      </Button>
+      <Button variant="panel" onClick={addTextAreaNode}>
+        <TextIcon className="w-[16px] h-[16px]" />
       </Button>
       <TooltipProvider>
         <Tooltip>
