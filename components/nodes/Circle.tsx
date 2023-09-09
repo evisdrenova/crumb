@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import {
+  Edge,
   Handle,
+  Node,
   NodeResizer,
   NodeToolbar,
   Position,
   useKeyPress,
   useNodes,
+  useOnSelectionChange,
   useStore,
 } from "reactflow";
 
@@ -52,12 +55,11 @@ export default function Circle(props: Props) {
           </div>
         </NodeToolbar>
         <NodeToolbar position={Position.Top}></NodeToolbar>
-        {selected && (
-          <>
-            <Handle type="target" position={Position.Left} />
-            <Handle type="source" position={Position.Right} />
-          </>
-        )}
+
+        <>
+          <Handle type="target" position={Position.Left} />
+          <Handle type="source" position={Position.Right} />
+        </>
       </div>
     </>
   );

@@ -11,3 +11,10 @@ Crumb is an interacive, node-based diagram creator that enables anyone to create
 - ability to change multiple nodes styles by selecting them
 - fix the connecting process because right now the handlers don't show bescause they're turned off when it isn't selected - but they should show if at least one node is selected
 - ablity to set border radius individually
+- export as png, gif and svg with animation
+- support all edge types - https://reactflow.dev/docs/examples/edges/edge-types/
+- support multiple edge types -> https://reactflow.dev/docs/examples/edges/markers/
+- support simple and advanced floating edges
+- support edge labels
+- refactor the shape settings component into smaller components
+- implement text

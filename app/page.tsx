@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import ReactFlow, {
   Background,
   Controls,
@@ -17,8 +17,6 @@ import ReactFlow, {
   ReactFlowProvider,
   Panel,
   useNodesState,
-  useKeyPress,
-  useOnSelectionChange,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import RoundedBox from "../components/nodes/RoundedBox";
