@@ -3,6 +3,7 @@ import {
   DragHandleDots2Icon,
   GridIcon,
   HamburgerMenuIcon,
+  Pencil1Icon,
   PlusIcon,
 } from "@radix-ui/react-icons";
 import {
@@ -92,7 +93,6 @@ export default function CanvasSettings(props: Props): ReactElement {
     return (
       <div className="flex flex-row items-center gap-2 hover:bg-gray-600 rounded-lg text-md font-light">
         {icon?.icon}
-        {icon?.type}
       </div>
     );
   };
@@ -144,7 +144,7 @@ export default function CanvasSettings(props: Props): ReactElement {
               </DropdownMenuTrigger>
             </TooltipTrigger>
             <TooltipContent side="bottom" sideOffset={5}>
-              <p>Background Icon Type</p>
+              <p>Canvas Icon Type</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -170,18 +170,27 @@ export default function CanvasSettings(props: Props): ReactElement {
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>
       </DropdownMenu>
-      <Button
-        variant="panel"
-        onClick={() => {
-          if (!openCanvasIconWidth) {
-            setCanvasIconWidth(true);
-          } else {
-            setCanvasIconWidth(false);
-          }
-        }}
-      >
-        <BorderWidthIcon />
-      </Button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="panel"
+              onClick={() => {
+                if (!openCanvasIconWidth) {
+                  setCanvasIconWidth(true);
+                } else {
+                  setCanvasIconWidth(false);
+                }
+              }}
+            >
+              <BorderWidthIcon />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom" sideOffset={5}>
+            <p>Canvas Icon Width</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       {openCanvasIconWidth && (
         <Input
           type="text"
@@ -206,7 +215,7 @@ export default function CanvasSettings(props: Props): ReactElement {
               <Popover>
                 <PopoverTrigger asChild>
                   <Button variant="panel">
-                    <PaintBucketIcon className="w-[16px] h-[16px]" />
+                    <Pencil1Icon className="w-[16px] h-[16px]" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="bg-transparent">
@@ -219,7 +228,7 @@ export default function CanvasSettings(props: Props): ReactElement {
             </div>
           </TooltipTrigger>
           <TooltipContent side="bottom" sideOffset={5}>
-            <p>Background Icon Color</p>
+            <p>Canvas Icon Color</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
