@@ -37,8 +37,6 @@ export default function TextBox(props: Props) {
     setHeight(size?.height);
   };
 
-  //TODO: make the text area take up the space of the node and get rid of the resize icon
-
   return (
     <>
       <NodeResizer
@@ -51,7 +49,7 @@ export default function TextBox(props: Props) {
         }}
         keepAspectRatio={isShiftPressed ? true : false}
       />
-      <div className="min-w-[30px] min-h-[30px] w-full h-full text-sm">
+      <div className="min-w-[30px] min-h-[30px] w-full h-full">
         <Textarea
           placeholder="Type your message here."
           className="focus-visible:ring-0 bg-transparent w-full h-full resize-none"

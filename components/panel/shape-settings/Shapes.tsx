@@ -84,7 +84,7 @@ export const addTextAreaNode = (
     type: "text",
     data: [],
     position: { x: 100, y: 100 },
-    style: { fontSize: "30" },
+    style: { fontSize: "20px" },
   };
   setNodes([newNode, ...currNodes]);
   setId(id + 1);

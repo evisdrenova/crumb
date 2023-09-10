@@ -11,20 +11,18 @@ import { Node, useNodes } from "reactflow";
 import { Input } from "../../ui/input";
 
 interface Props {
-  setIsEnterPressed: (val: boolean) => void;
   selectedNode: Node[];
   setNodes: (nodes: Node[]) => void;
-  isEnterPressed: boolean;
 }
 
 export default function TextSize(props: Props): ReactElement {
-  const [textSize, setTextSize] = useState<string>("8");
+  const [textSize, setTextSize] = useState<string>("20px");
   const [openTextSize, setOpenTextSize] = useState<boolean>(false);
-  const { setIsEnterPressed, selectedNode, setNodes, isEnterPressed } = props;
+  const { selectedNode, setNodes } = props;
   const nodes = useNodes();
+  const [isEnterPressed, setIsEnterPressed] = useState<boolean>(false);
 
   const handleTextSizeChange = () => {
-    console.log("is enter pressed", isEnterPressed);
     if (isEnterPressed) {
       //required bc is user goes from 3 digit to 2 digit, the border won't jump
       const updatedNodes = nodes.map((node) => {
@@ -32,27 +30,26 @@ export default function TextSize(props: Props): ReactElement {
           if (node.id == selectedNode[0]?.id) {
             node.style = {
               ...node.style,
-              fontSize: textSize,
+              fontSize: textSize + "px",
             };
           }
         }
         return node;
       });
-      console.log("textsize", textSize);
       setNodes(updatedNodes);
     }
   };
 
   useEffect(() => {
     handleTextSizeChange();
-  }, [textSize, setNodes, setIsEnterPressed]);
+  }, [textSize, isEnterPressed, setNodes, setIsEnterPressed]);
 
   return (
     <div className="flex flex-row">
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <div id="bg-icon-color-setter">
+            <div>
               <Button
                 variant="panel"
                 disabled={selectedNode?.length == 0}
@@ -77,7 +74,7 @@ export default function TextSize(props: Props): ReactElement {
         <Input
           type="number"
           className="w-[70px] h-[40px]"
-          placeholder="8"
+          placeholder={textSize}
           maxLength={3}
           value={textSize}
           onChange={(val) => {

@@ -77,12 +77,7 @@ export default function ShapeSettings(props: Props) {
       />
       <div className="bg-gray-500 h-6 w-[1px] mx-1" />
       <TextColor selectedNode={selectedNode ?? []} setNodes={setNodes} />
-      <TextSize
-        setIsEnterPressed={setIsEnterPressed}
-        selectedNode={selectedNode ?? []}
-        setNodes={setNodes}
-        isEnterPressed={isEnterPressed}
-      />
+      <TextSize selectedNode={selectedNode ?? []} setNodes={setNodes} />
     </div>
   );
 }
