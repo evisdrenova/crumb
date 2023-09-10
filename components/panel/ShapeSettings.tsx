@@ -26,6 +26,8 @@ import { Node, useNodes, useOnSelectionChange } from "reactflow";
 import { RoundedBox } from "@/public/icons/RoundedSquare";
 import TextSize from "./shape-options/TextSize";
 import TextColor from "./shape-options/TextColor";
+import BorderRadius from "./shape-options/BorderRadius";
+import BorderWidth from "./shape-options/BorderWidth";
 
 interface Props {
   setNodes: (nodes: Node[]) => void;
@@ -36,10 +38,6 @@ export default function ShapeSettings(props: Props) {
   const [selectedNode, setSelectedNodes] = useState<Node[]>();
   const [isEnterPressed, setIsEnterPressed] = useState<boolean>(false);
   const [id, setId] = useState<number>(1);
-  const [openBorderWidth, setOpenBorderWidth] = useState<boolean>(false);
-  const [openBorderRadius, setOpenBorderRadius] = useState<boolean>(false);
-  const [nodeBorderWidth, setNodeBorderWidth] = useState<string>("");
-  const [nodeBorderRadius, setNodeBorderRadius] = useState<string>("");
   const [nodeBgColor, setNodeBgColor] = useState<string>("");
   const [nodeBorderColor, setNodeBorderColor] = useState<string>("");
   const nodes = useNodes();
@@ -113,50 +111,6 @@ export default function ShapeSettings(props: Props) {
     setNodes([newNode, ...currNodes]);
     setId(id + 1);
   };
-
-  const HandleNodeBorderWidthUpdate = () => {
-    if (isEnterPressed) {
-      //required bc is user goes from 3 digit to 2 digit, the border won't jump
-      const updatedNodes = nodes.map((node) => {
-        if (selectedNode) {
-          if (node.id == selectedNode[0]?.id) {
-            node.style = {
-              ...node.style,
-              borderWidth: nodeBorderWidth + "px",
-            };
-          }
-        }
-        return node;
-      });
-      setNodes(updatedNodes);
-    }
-  };
-
-  useEffect(() => {
-    HandleNodeBorderWidthUpdate();
-  }, [nodeBorderWidth, setNodes, isEnterPressed]);
-
-  const HandleNodeBorderRadiusUpdate = () => {
-    if (isEnterPressed) {
-      // isEnterPressed check here is required bc is user goes from 3 digit to 2 digit, the border won't jump
-      const updatedNodes = nodes.map((node) => {
-        if (selectedNode) {
-          if (node.id == selectedNode[0]?.id) {
-            node.style = {
-              ...node.style,
-              borderRadius: nodeBorderRadius + "px",
-            };
-          }
-        }
-        return node;
-      });
-      setNodes(updatedNodes);
-    }
-  };
-
-  useEffect(() => {
-    HandleNodeBorderRadiusUpdate();
-  }, [nodeBorderRadius, setNodes, isEnterPressed]);
 
   const HandleBgUpdate = () => {
     const updatedNodes = nodes.map((node) => {
@@ -272,97 +226,18 @@ export default function ShapeSettings(props: Props) {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div id="bg-icon-color-setter">
-              <Button
-                variant="panel"
-                disabled={selectedNode?.length == 0}
-                onClick={() => {
-                  if (!openBorderWidth) {
-                    setOpenBorderWidth(true);
-                  } else {
-                    setOpenBorderWidth(false);
-                  }
-                }}
-              >
-                <BorderWidthIcon />
-              </Button>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" sideOffset={5}>
-            <p>Node Border Width</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-      {openBorderWidth && (
-        <Input
-          type="text"
-          className="w-[50px] h-[40px]"
-          placeholder="4px"
-          maxLength={3}
-          value={nodeBorderWidth}
-          onChange={(val) => {
-            //makes the scaling up and down smooth so that the border with doesn't always
-            //go back to zero when the user is updating the value
-            setIsEnterPressed(false);
-            setNodeBorderWidth(val.target.value);
-          }}
-          onKeyUp={(event) => {
-            if (event.key === "Enter") {
-              setIsEnterPressed(true);
-              HandleNodeBorderWidthUpdate;
-            }
-          }}
-        />
-      )}
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="panel"
-              disabled={
-                (selectedNode && selectedNode[0]?.type == "circle") ||
-                selectedNode?.length == 0
-              }
-              onClick={() => {
-                if (!openBorderRadius) {
-                  setOpenBorderRadius(true);
-                } else {
-                  setOpenBorderRadius(false);
-                }
-              }}
-            >
-              <CornersIcon />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" sideOffset={5}>
-            <p>Node Border Radius</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-      {openBorderRadius && (
-        <Input
-          type="text"
-          className="w-[50px] h-[40px]"
-          placeholder="4px"
-          maxLength={3}
-          value={nodeBorderRadius}
-          onChange={(val) => {
-            //makes the scaling up and down smooth so that the border with doesn't always
-            //go back to zero when the user is updating the value
-            setIsEnterPressed(false);
-            setNodeBorderRadius(val.target.value);
-          }}
-          onKeyUp={(event) => {
-            if (event.key === "Enter") {
-              setIsEnterPressed(true);
-              HandleNodeBorderRadiusUpdate;
-            }
-          }}
-        />
-      )}
+      <BorderWidth
+        setIsEnterPressed={setIsEnterPressed}
+        selectedNode={selectedNode ?? []}
+        setNodes={setNodes}
+        isEnterPressed={isEnterPressed}
+      />
+      <BorderRadius
+        setIsEnterPressed={setIsEnterPressed}
+        selectedNode={selectedNode ?? []}
+        setNodes={setNodes}
+        isEnterPressed={isEnterPressed}
+      />
       <div className="bg-gray-500 h-6 w-[1px] mx-1" />
       <TextColor selectedNode={selectedNode ?? []} setNodes={setNodes} />
       <TextSize
