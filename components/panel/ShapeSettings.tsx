@@ -1,33 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
-import { CircleIcon, PaintBucketIcon } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@radix-ui/react-tooltip";
-import { HexColorPicker } from "react-colorful";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  BorderAllIcon,
-  BorderWidthIcon,
-  SquareIcon,
-  CornersIcon,
-  TextIcon,
-} from "@radix-ui/react-icons";
-import { Input } from "../ui/input";
+import { CircleIcon } from "lucide-react";
+import { SquareIcon, TextIcon } from "@radix-ui/react-icons";
 import { Node, useNodes, useOnSelectionChange } from "reactflow";
 import { RoundedBox } from "@/public/icons/RoundedSquare";
 import TextSize from "./shape-options/TextSize";
 import TextColor from "./shape-options/TextColor";
 import BorderRadius from "./shape-options/BorderRadius";
 import BorderWidth from "./shape-options/BorderWidth";
+import NodeBorderColor from "./shape-options/NodeBorderColor";
+import NodeBackgroundColor from "./shape-options/NodeBackgroundColor";
 
 interface Props {
   setNodes: (nodes: Node[]) => void;
@@ -38,8 +21,6 @@ export default function ShapeSettings(props: Props) {
   const [selectedNode, setSelectedNodes] = useState<Node[]>();
   const [isEnterPressed, setIsEnterPressed] = useState<boolean>(false);
   const [id, setId] = useState<number>(1);
-  const [nodeBgColor, setNodeBgColor] = useState<string>("");
-  const [nodeBorderColor, setNodeBorderColor] = useState<string>("");
   const nodes = useNodes();
 
   const addCircle = () => {
@@ -112,44 +93,6 @@ export default function ShapeSettings(props: Props) {
     setId(id + 1);
   };
 
-  const HandleBgUpdate = () => {
-    const updatedNodes = nodes.map((node) => {
-      if (selectedNode) {
-        if (node.id == selectedNode[0]?.id) {
-          node.style = {
-            ...node.style,
-            background: nodeBgColor,
-          };
-        }
-      }
-      return node;
-    });
-    setNodes(updatedNodes);
-  };
-
-  useEffect(() => {
-    HandleBgUpdate();
-  }, [nodeBgColor, setNodes]);
-
-  const HandleNodeBorderColorUpdate = () => {
-    const updatedNodes = nodes.map((node) => {
-      if (selectedNode) {
-        if (node.id == selectedNode[0]?.id) {
-          node.style = {
-            ...node.style,
-            borderColor: nodeBorderColor,
-          };
-        }
-      }
-      return node;
-    });
-    setNodes(updatedNodes);
-  };
-
-  useEffect(() => {
-    HandleNodeBorderColorUpdate();
-  }, [nodeBorderColor, setNodes]);
-
   useOnSelectionChange({
     onChange: ({ nodes }) => {
       setSelectedNodes(nodes);
@@ -172,60 +115,11 @@ export default function ShapeSettings(props: Props) {
         <TextIcon className="w-[16px] h-[16px]" />
       </Button>
       <div className="bg-gray-500 h-6 w-[1px] mx-1" />
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="panel" disabled={selectedNode?.length == 0}>
-                    <PaintBucketIcon className="w-[16px] h-[16px]" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="bg-transparent">
-                  <HexColorPicker
-                    color={nodeBgColor}
-                    onChange={(color) => {
-                      setNodeBgColor(color);
-                      HandleBgUpdate;
-                    }}
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" sideOffset={5}>
-            <p>Node Background</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="panel" disabled={selectedNode?.length == 0}>
-                    <BorderAllIcon />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="bg-transparent">
-                  <HexColorPicker
-                    color={nodeBorderColor}
-                    onChange={(color) => {
-                      setNodeBorderColor(color);
-                      HandleNodeBorderColorUpdate;
-                    }}
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" sideOffset={5}>
-            <p>Node Border Color</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <NodeBackgroundColor
+        selectedNode={selectedNode ?? []}
+        setNodes={setNodes}
+      />
+      <NodeBorderColor selectedNode={selectedNode ?? []} setNodes={setNodes} />
       <BorderWidth
         setIsEnterPressed={setIsEnterPressed}
         selectedNode={selectedNode ?? []}
