@@ -63,18 +63,8 @@ export default function ShapeSettings(props: Props) {
         setNodes={setNodes}
       />
       <NodeBorderColor selectedNode={selectedNode ?? []} setNodes={setNodes} />
-      <BorderWidth
-        setIsEnterPressed={setIsEnterPressed}
-        selectedNode={selectedNode ?? []}
-        setNodes={setNodes}
-        isEnterPressed={isEnterPressed}
-      />
-      <BorderRadius
-        setIsEnterPressed={setIsEnterPressed}
-        selectedNode={selectedNode ?? []}
-        setNodes={setNodes}
-        isEnterPressed={isEnterPressed}
-      />
+      <BorderWidth selectedNode={selectedNode ?? []} setNodes={setNodes} />
+      <BorderRadius selectedNode={selectedNode ?? []} setNodes={setNodes} />
       <div className="bg-gray-500 h-6 w-[1px] mx-1" />
       <TextColor selectedNode={selectedNode ?? []} setNodes={setNodes} />
       <TextSize selectedNode={selectedNode ?? []} setNodes={setNodes} />
