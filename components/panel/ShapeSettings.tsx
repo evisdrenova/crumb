@@ -18,15 +18,14 @@ import {
   BorderAllIcon,
   BorderWidthIcon,
   SquareIcon,
-  BoxIcon,
   CornersIcon,
   TextIcon,
 } from "@radix-ui/react-icons";
 import { Input } from "../ui/input";
-import { Edge, Node, useNodes, useOnSelectionChange } from "reactflow";
-import { TextColor } from "@/public/icons/TextColor";
-import { text } from "stream/consumers";
+import { Node, useNodes, useOnSelectionChange } from "reactflow";
 import { RoundedBox } from "@/public/icons/RoundedSquare";
+import TextSize from "./shape-options/TextSize";
+import TextColor from "./shape-options/TextColor";
 
 interface Props {
   setNodes: (nodes: Node[]) => void;
@@ -43,7 +42,6 @@ export default function ShapeSettings(props: Props) {
   const [nodeBorderRadius, setNodeBorderRadius] = useState<string>("");
   const [nodeBgColor, setNodeBgColor] = useState<string>("");
   const [nodeBorderColor, setNodeBorderColor] = useState<string>("");
-  const [textColor, setTextColor] = useState<string>("");
   const nodes = useNodes();
 
   const addCircle = () => {
@@ -110,7 +108,7 @@ export default function ShapeSettings(props: Props) {
       type: "text",
       data: [],
       position: { x: 100, y: 100 },
-      style: {},
+      style: { fontSize: "30" },
     };
     setNodes([newNode, ...currNodes]);
     setId(id + 1);
@@ -204,30 +202,6 @@ export default function ShapeSettings(props: Props) {
     },
   });
 
-  const changeTextColor = () => {
-    //required bc is user goes from 3 digit to 2 digit, the border won't jump
-    const updatedNodes = nodes.map((node) => {
-      if (selectedNode) {
-        if (node.id == selectedNode[0]?.id) {
-          node.style = {
-            ...node.style,
-            color: textColor,
-          };
-        }
-      }
-      return node;
-    });
-    setNodes(updatedNodes);
-  };
-
-  useEffect(() => {
-    changeTextColor();
-  }, [textColor, setNodes]);
-
-  const checkIfText = () => {
-    return selectedNode?.some((node) => node.type == "text");
-  };
-
   return (
     <div className="flex flex-row items-center">
       <div className="bg-gray-500 h-6 w-[1px] mx-1" />
@@ -243,33 +217,7 @@ export default function ShapeSettings(props: Props) {
       <Button variant="panel" onClick={addTextAreaNode}>
         <TextIcon className="w-[16px] h-[16px]" />
       </Button>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="panel" disabled={!checkIfText()}>
-                    <TextColor />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="bg-transparent">
-                  <HexColorPicker
-                    color={nodeBgColor}
-                    onChange={(color) => {
-                      setTextColor(color);
-                      changeTextColor;
-                    }}
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" sideOffset={5}>
-            <p>Text Color</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <div className="bg-gray-500 h-6 w-[1px] mx-1" />
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -415,6 +363,14 @@ export default function ShapeSettings(props: Props) {
           }}
         />
       )}
+      <div className="bg-gray-500 h-6 w-[1px] mx-1" />
+      <TextColor selectedNode={selectedNode ?? []} setNodes={setNodes} />
+      <TextSize
+        setIsEnterPressed={setIsEnterPressed}
+        selectedNode={selectedNode ?? []}
+        setNodes={setNodes}
+        isEnterPressed={isEnterPressed}
+      />
     </div>
   );
 }
