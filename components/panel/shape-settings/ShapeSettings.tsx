@@ -12,6 +12,7 @@ import BorderWidth from "./BorderWidth";
 import NodeBorderColor from "./NodeBorderColor";
 import NodeBackgroundColor from "./NodeBackgroundColor";
 import { addCircle, addRoundedBox, addSquare, addTextAreaNode } from "./Shapes";
+import FontFamily from "./FontFamily";
 
 interface Props {
   setNodes: (nodes: Node[]) => void;
@@ -20,7 +21,6 @@ interface Props {
 export default function ShapeSettings(props: Props) {
   const { setNodes } = props;
   const [selectedNode, setSelectedNodes] = useState<Node[]>();
-  const [isEnterPressed, setIsEnterPressed] = useState<boolean>(false);
   const [id, setId] = useState<number>(1);
   const nodes = useNodes();
 
@@ -68,6 +68,7 @@ export default function ShapeSettings(props: Props) {
       <div className="bg-gray-500 h-6 w-[1px] mx-1" />
       <TextColor selectedNode={selectedNode ?? []} setNodes={setNodes} />
       <TextSize selectedNode={selectedNode ?? []} setNodes={setNodes} />
+      <FontFamily selectedNode={selectedNode ?? []} setNodes={setNodes} />
     </div>
   );
 }
