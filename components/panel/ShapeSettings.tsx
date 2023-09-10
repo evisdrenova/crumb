@@ -23,7 +23,7 @@ import {
   TextIcon,
 } from "@radix-ui/react-icons";
 import { Input } from "../ui/input";
-import { Edge, Node, useNodes } from "reactflow";
+import { Edge, Node, useNodes, useOnSelectionChange } from "reactflow";
 
 interface Props {
   setNodes: (nodes: Node[]) => void;
@@ -31,7 +31,7 @@ interface Props {
 
 export default function ShapeSettings(props: Props) {
   const { setNodes } = props;
-  const [selectedNode, _] = useState<Node[]>();
+  const [selectedNode, setSelectedNodes] = useState<Node[]>();
   const [isEnterPressed, setIsEnterPressed] = useState<boolean>(false);
   const [id, setId] = useState<number>(1);
   const [openBorderWidth, setOpenBorderWidth] = useState<boolean>(false);
@@ -193,6 +193,12 @@ export default function ShapeSettings(props: Props) {
   useEffect(() => {
     HandleNodeBorderColorUpdate();
   }, [nodeBorderColor, setNodes]);
+
+  useOnSelectionChange({
+    onChange: ({ nodes }) => {
+      setSelectedNodes(nodes);
+    },
+  });
 
   return (
     <div className="flex flex-row items-center">
