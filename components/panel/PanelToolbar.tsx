@@ -1,8 +1,8 @@
 "use client";
 import { ReactElement, forwardRef } from "react";
 import { BackgroundVariant, Node } from "reactflow";
-import CanvasSettings from "./panel/CanvasSettings";
-import ShapeSettings from "./panel/ShapeSettings";
+import CanvasSettings from "./canvas-settings/CanvasSettings";
+import ShapeSettings from "./shape-settings/ShapeSettings";
 
 interface Props {
   setNodes: (nodes: Node[]) => void;

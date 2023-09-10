@@ -18,7 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { ReactElement, useState } from "react";
 import { BackgroundVariant } from "reactflow";
 import { HexColorPicker } from "react-colorful";
@@ -30,7 +30,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import { Input } from "../ui/input";
+import { Input } from "../../ui/input";
 
 interface Props {
   bgColor: string;
