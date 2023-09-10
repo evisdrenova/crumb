@@ -23,7 +23,7 @@ import {
   TextIcon,
 } from "@radix-ui/react-icons";
 import { Input } from "../ui/input";
-import { Edge, Node, useNodes, useOnSelectionChange } from "reactflow";
+import { Edge, Node, useNodes } from "reactflow";
 
 interface Props {
   setNodes: (nodes: Node[]) => void;
@@ -106,7 +106,7 @@ export default function ShapeSettings(props: Props) {
       type: "text",
       data: [],
       position: { x: 100, y: 100 },
-      style: { borderWidth: "0px" },
+      style: {},
     };
     setNodes([newNode, ...currNodes]);
     setId(id + 1);

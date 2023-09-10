@@ -11,6 +11,7 @@ import {
   useStore,
 } from "reactflow";
 import { Textarea } from "../ui/textarea";
+import { Input } from "../ui/input";
 
 interface Props {
   id: string;
@@ -36,6 +37,8 @@ export default function TextBox(props: Props) {
     setHeight(size?.height);
   };
 
+  //TODO: make the text area take up the space of the node and get rid of the resize icon
+
   return (
     <>
       <NodeResizer
@@ -48,12 +51,11 @@ export default function TextBox(props: Props) {
         }}
         keepAspectRatio={isShiftPressed ? true : false}
       />
-      <div className="min-w-[30px] min-h-[30px] w-full h-full">
+      <div className="min-w-[30px] min-h-[30px] w-full h-full text-sm">
         <Textarea
           placeholder="Type your message here."
-          className="focus-visible:ring-0 bg-transparent border-0"
+          className="focus-visible:ring-0 bg-transparent w-full h-full resize-none"
         />
-
         <NodeToolbar position={Position.Bottom}>
           <div className="bg-blue-600 text-white text-sm rounded-sm px-1">
             {width} x {height}
