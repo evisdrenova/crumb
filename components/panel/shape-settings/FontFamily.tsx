@@ -21,6 +21,7 @@ interface Props {
   setNodes: (nodes: Node[]) => void;
 }
 
+//TODO: finish up wiring up the font family by getting th elist of fonts that we will support and making them available, also wire up font-family to the textarea shape
 const fontFamilies: string[] = ["sans-serif", "inter", "mono"];
 
 export default function FontFamily(props: Props): ReactElement {
