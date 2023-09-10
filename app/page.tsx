@@ -23,7 +23,7 @@ import RoundedBox from "../components/nodes/RoundedBox";
 import Circle from "../components/nodes/Circle";
 import Square from "../components/nodes/Square";
 import TextBox from "@/components/nodes/TextBox";
-import PanelToolbar from "@/components/PanelToolbar";
+import PanelToolbar from "@/components/panel/PanelToolbar";
 
 const nodeTypes: NodeTypes = {
   roundedBox: RoundedBox,
