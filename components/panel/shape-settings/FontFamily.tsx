@@ -37,8 +37,7 @@ export default function FontFamily(props: Props): ReactElement {
   const [fontFamily, setFontFamily] = useState<string>("sans");
   const nodes = useNodes();
 
-  const handleFontFamilyChange = () => {
-    // isEnterPressed check here is required bc is user goes from 3 digit to 2 digit, the border won't jump
+  useEffect(() => {
     const updatedNodes = nodes.map((node) => {
       if (selectedNode) {
         if (node.id == selectedNode[0]?.id) {
@@ -51,13 +50,7 @@ export default function FontFamily(props: Props): ReactElement {
       return node;
     });
     setNodes(updatedNodes);
-  };
-
-  useEffect(() => {
-    handleFontFamilyChange();
-  }, [fontFamily, setFontFamily, setNodes]);
-
-  console.log("font family", fontFamily);
+  }, [fontFamily, setNodes]);
 
   return (
     <div>
@@ -66,7 +59,11 @@ export default function FontFamily(props: Props): ReactElement {
           <Tooltip>
             <TooltipTrigger asChild>
               <DropdownMenuTrigger asChild>
-                <Button variant="panel" disabled={selectedNode?.length == 0}>
+                <Button
+                  variant="panel"
+                  disabled={selectedNode?.length == 0}
+                  className="focus:ring-0"
+                >
                   {fontFamily}
                 </Button>
               </DropdownMenuTrigger>
@@ -81,17 +78,13 @@ export default function FontFamily(props: Props): ReactElement {
           <DropdownMenuRadioGroup
             value={fontFamily}
             onValueChange={(value) => {
-              if (value !== undefined) {
-                setFontFamily(value);
-              }
+              setFontFamily(value);
             }}
           >
             {fontFamilies.map((ff) => (
               <DropdownMenuRadioItem value={ff.name} key={ff.name}>
-                <div className="flex flex-row items-center space-x-3 pt-3 hover:bg-gray-600 rounded-lg p-2">
-                  <div className="text-sm text-gray-100 font-light">
-                    {ff.display}
-                  </div>
+                <div className="text-sm text-gray-100 pt-3 hover:bg-gray-600 rounded-lg p-2">
+                  {ff.display}
                 </div>
               </DropdownMenuRadioItem>
             ))}

@@ -61,7 +61,7 @@ export default function TextSize(props: Props): ReactElement {
                   }
                 }}
               >
-                <FontSizeIcon />
+                <FontSizeIcon className="w-[18px] h-[18px]" />
               </Button>
             </div>
           </TooltipTrigger>
