@@ -8,12 +8,6 @@ import {
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 import { DragHandleDots2Icon, PlusIcon } from "@radix-ui/react-icons";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@radix-ui/react-tooltip";
 import { GridIcon } from "lucide-react";
 import { ReactElement } from "react";
 import { BackgroundVariant } from "reactflow";
@@ -69,18 +63,9 @@ export default function CanvasIconType(props: Props): ReactElement {
   return (
     <div>
       <DropdownMenu>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <DropdownMenuTrigger asChild>
-                <Button variant="panel">{handleBgIcon()}</Button>
-              </DropdownMenuTrigger>
-            </TooltipTrigger>
-            <TooltipContent side="bottom" sideOffset={5}>
-              <p>Canvas Icon Type</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <DropdownMenuTrigger asChild>
+          <Button variant="panel">{handleBgIcon()}</Button>
+        </DropdownMenuTrigger>
         <DropdownMenuContent className="w-30 bg-gray-700 text-white rounded-lg mt-2 py-3 px-2 cursor-pointer">
           <DropdownMenuSeparator />
           <DropdownMenuRadioGroup
