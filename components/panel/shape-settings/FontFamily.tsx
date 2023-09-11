@@ -21,12 +21,20 @@ interface Props {
   setNodes: (nodes: Node[]) => void;
 }
 
-//TODO: finish up wiring up the font family by getting th elist of fonts that we will support and making them available, also wire up font-family to the textarea shape
-const fontFamilies: string[] = ["sans-serif", "inter", "mono"];
+interface FontFamily {
+  name: string;
+  display: JSX.Element;
+}
+
+const fontFamilies: FontFamily[] = [
+  { name: "sans", display: <div className="font-sans">sans</div> },
+  { name: "serif", display: <div className="font-serif">serif</div> },
+  { name: "mono", display: <div className="font-mono">mono</div> },
+];
 
 export default function FontFamily(props: Props): ReactElement {
   const { selectedNode, setNodes } = props;
-  const [fontFamily, setFontFamily] = useState<string>(""); //update with types
+  const [fontFamily, setFontFamily] = useState<string>("sans");
   const nodes = useNodes();
 
   const handleFontFamilyChange = () => {
@@ -36,7 +44,7 @@ export default function FontFamily(props: Props): ReactElement {
         if (node.id == selectedNode[0]?.id) {
           node.style = {
             ...node.style,
-            fontFamily: fontFamily + "px",
+            fontFamily: fontFamily,
           };
         }
       }
@@ -47,7 +55,9 @@ export default function FontFamily(props: Props): ReactElement {
 
   useEffect(() => {
     handleFontFamilyChange();
-  }, [fontFamily, setNodes]);
+  }, [fontFamily, setFontFamily, setNodes]);
+
+  console.log("font family", fontFamily);
 
   return (
     <div>
@@ -56,7 +66,9 @@ export default function FontFamily(props: Props): ReactElement {
           <Tooltip>
             <TooltipTrigger asChild>
               <DropdownMenuTrigger asChild>
-                <Button variant="panel">{fontFamily}</Button>
+                <Button variant="panel" disabled={selectedNode?.length == 0}>
+                  {fontFamily}
+                </Button>
               </DropdownMenuTrigger>
             </TooltipTrigger>
             <TooltipContent side="bottom" sideOffset={5}>
@@ -75,9 +87,11 @@ export default function FontFamily(props: Props): ReactElement {
             }}
           >
             {fontFamilies.map((ff) => (
-              <DropdownMenuRadioItem value={ff} key={ff}>
+              <DropdownMenuRadioItem value={ff.name} key={ff.name}>
                 <div className="flex flex-row items-center space-x-3 pt-3 hover:bg-gray-600 rounded-lg p-2">
-                  <div className="text-sm text-gray-100">{ff}</div>
+                  <div className="text-sm text-gray-100 font-light">
+                    {ff.display}
+                  </div>
                 </div>
               </DropdownMenuRadioItem>
             ))}
