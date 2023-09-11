@@ -11,16 +11,15 @@ import { Node, useNodes } from "reactflow";
 import { Input } from "../../ui/input";
 
 interface Props {
-  setIsEnterPressed: (val: boolean) => void;
   selectedNode: Node[];
   setNodes: (nodes: Node[]) => void;
-  isEnterPressed: boolean;
 }
 
 export default function BorderWidth(props: Props): ReactElement {
   const [openBorderWidth, setOpenBorderWidth] = useState<boolean>(false);
   const [nodeBorderWidth, setNodeBorderWidth] = useState<string>("");
-  const { setIsEnterPressed, selectedNode, setNodes, isEnterPressed } = props;
+  const { selectedNode, setNodes } = props;
+  const [isEnterPressed, setIsEnterPressed] = useState<boolean>(false);
   const nodes = useNodes();
 
   const HandleNodeBorderWidthUpdate = () => {
