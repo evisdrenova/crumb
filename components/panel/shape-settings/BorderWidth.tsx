@@ -1,12 +1,6 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@radix-ui/react-tooltip";
 import { ReactElement, useEffect, useState } from "react";
 import { Button } from "../../ui/button";
-import { BorderWidthIcon, FontSizeIcon } from "@radix-ui/react-icons";
+import { BorderWidthIcon } from "@radix-ui/react-icons";
 import { Node, useNodes } from "reactflow";
 import { Input } from "../../ui/input";
 
@@ -22,7 +16,7 @@ export default function BorderWidth(props: Props): ReactElement {
   const [isEnterPressed, setIsEnterPressed] = useState<boolean>(false);
   const nodes = useNodes();
 
-  const HandleNodeBorderWidthUpdate = () => {
+  useEffect(() => {
     if (isEnterPressed) {
       //required bc is user goes from 3 digit to 2 digit, the border won't jump
       const updatedNodes = nodes.map((node) => {
@@ -38,38 +32,23 @@ export default function BorderWidth(props: Props): ReactElement {
       });
       setNodes(updatedNodes);
     }
-  };
-
-  useEffect(() => {
-    HandleNodeBorderWidthUpdate();
   }, [nodeBorderWidth, setNodes, isEnterPressed]);
 
   return (
-    <div className="flex flex-row">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div id="bg-icon-color-setter">
-              <Button
-                variant="panel"
-                disabled={selectedNode?.length == 0}
-                onClick={() => {
-                  if (!openBorderWidth) {
-                    setOpenBorderWidth(true);
-                  } else {
-                    setOpenBorderWidth(false);
-                  }
-                }}
-              >
-                <BorderWidthIcon />
-              </Button>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" sideOffset={5}>
-            <p>Node Border Width</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+    <div className="flex flex-row items-center">
+      <Button
+        variant="panel"
+        disabled={selectedNode?.length == 0}
+        onClick={() => {
+          if (!openBorderWidth) {
+            setOpenBorderWidth(true);
+          } else {
+            setOpenBorderWidth(false);
+          }
+        }}
+      >
+        <BorderWidthIcon />
+      </Button>
       {openBorderWidth && (
         <Input
           type="text"
@@ -86,7 +65,6 @@ export default function BorderWidth(props: Props): ReactElement {
           onKeyUp={(event) => {
             if (event.key === "Enter") {
               setIsEnterPressed(true);
-              HandleNodeBorderWidthUpdate;
             }
           }}
         />

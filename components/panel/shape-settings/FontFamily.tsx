@@ -7,12 +7,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@radix-ui/react-tooltip";
 import { ReactElement, useEffect, useState } from "react";
 import { useNodes, Node } from "reactflow";
 
@@ -55,24 +49,15 @@ export default function FontFamily(props: Props): ReactElement {
   return (
     <div>
       <DropdownMenu>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="panel"
-                  disabled={selectedNode?.length == 0}
-                  className="focus:ring-0"
-                >
-                  {fontFamily}
-                </Button>
-              </DropdownMenuTrigger>
-            </TooltipTrigger>
-            <TooltipContent side="bottom" sideOffset={5}>
-              <p>Font family</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="panel"
+            disabled={selectedNode?.length == 0}
+            className="focus:ring-0"
+          >
+            {fontFamily}
+          </Button>
+        </DropdownMenuTrigger>
         <DropdownMenuContent className="w-30 bg-gray-700 text-white rounded-lg mt-2 py-3 px-2 cursor-pointer">
           <DropdownMenuSeparator />
           <DropdownMenuRadioGroup
