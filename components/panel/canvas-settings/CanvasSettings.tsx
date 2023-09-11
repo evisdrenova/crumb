@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { BackgroundVariant } from "reactflow";
-import MainMenu from "./MainMenu";
+import MainMenu from "./main-menu/MainMenu";
 import CanvasBackgroundColor from "./CanvasBackgroundColor";
 import CanvasIconType from "./CanvasIconType";
 import CanvasIconWidth from "./CanvasIconWidth";
