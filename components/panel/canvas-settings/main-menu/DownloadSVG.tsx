@@ -6,21 +6,21 @@ import {
   getRectOfNodes,
   getTransformForBounds,
 } from "reactflow";
-import { toJpeg } from "html-to-image";
+import { toJpeg, toPng, toSvg } from "html-to-image";
 
 //https://github.com/bubkoo/html-to-image
 
 function downloadImage(dataUrl: string) {
   const a = document.createElement("a");
 
-  a.setAttribute("download", "reactflow.jpg");
+  a.setAttribute("download", "reactflow.svg");
   a.setAttribute("href", dataUrl);
   a.click();
 }
 
 const imageWidth = 1024;
 const imageHeight = 768;
-export default function DownloadJPEG(): ReactElement {
+export default function DownloadSVG(): ReactElement {
   const { getNodes } = useReactFlow();
   const onClick = () => {
     // we calculate a transform for the nodes so that all nodes are visible
@@ -38,7 +38,7 @@ export default function DownloadJPEG(): ReactElement {
     const qs = document.querySelector(".react-flow__viewport");
 
     if (qs) {
-      toJpeg(qs as HTMLElement, {
+      toSvg(qs as HTMLElement, {
         backgroundColor: "#1a365d",
         width: imageWidth,
         height: imageHeight,
@@ -53,7 +53,7 @@ export default function DownloadJPEG(): ReactElement {
 
   return (
     <button className="download-btn" onClick={onClick}>
-      JPEG
+      SVG
     </button>
   );
 }

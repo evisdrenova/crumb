@@ -15,6 +15,7 @@ import {
 import DownloadButton from "./DownloadPNG";
 import DownloadPNG from "./DownloadPNG";
 import DownloadJPEG from "./DownloadJPEG";
+import DownloadSVG from "./DownloadSVG";
 
 export default function MainMenu(): ReactElement {
   return (
@@ -32,7 +33,7 @@ export default function MainMenu(): ReactElement {
               <DropdownMenuPortal>
                 <DropdownMenuSubContent className="w-56 w-30 bg-gray-700 text-white rounded-lg mt-2 py-3 px-2 cursor-pointer">
                   <DropdownMenuItem className="hover:bg-gray-600">
-                    SVG
+                    <DownloadSVG />
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <DownloadPNG />
