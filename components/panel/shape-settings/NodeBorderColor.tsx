@@ -1,14 +1,7 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@radix-ui/react-tooltip";
 import { ReactElement, useEffect, useState } from "react";
 import { Button } from "../../ui/button";
 import { BorderAllIcon } from "@radix-ui/react-icons";
 import { Node, useNodes } from "reactflow";
-import { Input } from "../../ui/input";
 import {
   Popover,
   PopoverContent,
@@ -26,7 +19,7 @@ export default function NodeBorderColor(props: Props): ReactElement {
   const nodes = useNodes();
   const { selectedNode, setNodes } = props;
 
-  const HandleNodeBorderColorUpdate = () => {
+  useEffect(() => {
     const updatedNodes = nodes.map((node) => {
       if (selectedNode) {
         if (node.id == selectedNode[0]?.id) {
@@ -39,41 +32,25 @@ export default function NodeBorderColor(props: Props): ReactElement {
       return node;
     });
     setNodes(updatedNodes);
-  };
-
-  useEffect(() => {
-    HandleNodeBorderColorUpdate();
   }, [nodeBorderColor, setNodes]);
 
   return (
     <div className="flex flex-row">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="panel" disabled={selectedNode?.length == 0}>
-                    <BorderAllIcon />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="bg-transparent">
-                  <HexColorPicker
-                    color={nodeBorderColor}
-                    onChange={(color) => {
-                      setNodeBorderColor(color);
-                      HandleNodeBorderColorUpdate;
-                    }}
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" sideOffset={5}>
-            <p>Node Border Color</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="panel" disabled={selectedNode?.length == 0}>
+            <BorderAllIcon />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="bg-transparent">
+          <HexColorPicker
+            color={nodeBorderColor}
+            onChange={(color) => {
+              setNodeBorderColor(color);
+            }}
+          />
+        </PopoverContent>
+      </Popover>
     </div>
   );
 }

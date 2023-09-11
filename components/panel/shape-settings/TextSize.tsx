@@ -1,9 +1,3 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@radix-ui/react-tooltip";
 import { ReactElement, useEffect, useState } from "react";
 import { Button } from "../../ui/button";
 import { FontSizeIcon } from "@radix-ui/react-icons";
@@ -46,30 +40,19 @@ export default function TextSize(props: Props): ReactElement {
 
   return (
     <div className="flex flex-row">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div>
-              <Button
-                variant="panel"
-                disabled={selectedNode?.length == 0}
-                onClick={() => {
-                  if (!openTextSize) {
-                    setOpenTextSize(true);
-                  } else {
-                    setOpenTextSize(false);
-                  }
-                }}
-              >
-                <FontSizeIcon className="w-[18px] h-[18px]" />
-              </Button>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" sideOffset={5}>
-            <p>Font size</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <Button
+        variant="panel"
+        disabled={selectedNode?.length == 0}
+        onClick={() => {
+          if (!openTextSize) {
+            setOpenTextSize(true);
+          } else {
+            setOpenTextSize(false);
+          }
+        }}
+      >
+        <FontSizeIcon className="w-[18px] h-[18px]" />
+      </Button>
       {openTextSize && (
         <Input
           type="number"
@@ -86,7 +69,6 @@ export default function TextSize(props: Props): ReactElement {
           onKeyUp={(event) => {
             if (event.key === "Enter") {
               setIsEnterPressed(true);
-              handleTextSizeChange;
             }
           }}
         />

@@ -1,9 +1,3 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@radix-ui/react-tooltip";
 import { ReactElement, useEffect, useState } from "react";
 import { Button } from "../../ui/button";
 import { CornersIcon } from "@radix-ui/react-icons";
@@ -22,7 +16,7 @@ export default function BorderRadius(props: Props): ReactElement {
   const [isEnterPressed, setIsEnterPressed] = useState<boolean>(false);
   const nodes = useNodes();
 
-  const HandleNodeBorderRadiusUpdate = () => {
+  useEffect(() => {
     if (isEnterPressed) {
       // isEnterPressed check here is required bc is user goes from 3 digit to 2 digit, the border won't jump
       const updatedNodes = nodes.map((node) => {
@@ -38,39 +32,26 @@ export default function BorderRadius(props: Props): ReactElement {
       });
       setNodes(updatedNodes);
     }
-  };
-
-  useEffect(() => {
-    HandleNodeBorderRadiusUpdate();
   }, [nodeBorderRadius, setNodes, isEnterPressed]);
 
   return (
-    <div className="flex flex-row">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="panel"
-              disabled={
-                (selectedNode && selectedNode[0]?.type == "circle") ||
-                selectedNode?.length == 0
-              }
-              onClick={() => {
-                if (!openBorderRadius) {
-                  setOpenBorderRadius(true);
-                } else {
-                  setOpenBorderRadius(false);
-                }
-              }}
-            >
-              <CornersIcon />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" sideOffset={5}>
-            <p>Node Border Radius</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+    <div className="flex flex-row items-center">
+      <Button
+        variant="panel"
+        disabled={
+          (selectedNode && selectedNode[0]?.type == "circle") ||
+          selectedNode?.length == 0
+        }
+        onClick={() => {
+          if (!openBorderRadius) {
+            setOpenBorderRadius(true);
+          } else {
+            setOpenBorderRadius(false);
+          }
+        }}
+      >
+        <CornersIcon />
+      </Button>
       {openBorderRadius && (
         <Input
           type="text"
@@ -87,7 +68,6 @@ export default function BorderRadius(props: Props): ReactElement {
           onKeyUp={(event) => {
             if (event.key === "Enter") {
               setIsEnterPressed(true);
-              HandleNodeBorderRadiusUpdate;
             }
           }}
         />
