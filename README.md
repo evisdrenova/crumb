@@ -20,5 +20,4 @@ Crumb is an interacive, node-based diagram creator that enables anyone to create
 - create a custom tooltip component that takes in children and the tooltip as a prop so we can use less code
 - implement layering so i can manage z-indexes
 - figure out a way to make the text component be highlightable for the text in there and then when im not selected on it, but able to drag it around but have to click on it and let go to be able to edit
-- fix tooltip styling
 - fix why i can't reset the font after the first time, i think it's something with the useEffect
