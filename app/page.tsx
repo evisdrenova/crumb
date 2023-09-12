@@ -58,9 +58,9 @@ export default function Home() {
   );
 
   return (
-    <div className="flex flex-row w-full">
+    <div className="flex flex-row w-full" id="react-flow-element">
       <ReactFlowProvider>
-        <div className="w-full h-[720px]">
+        <div className="w-full h-[720px]" id="react-flow-canvas">
           <ReactFlow
             nodes={nodes}
             edges={edges}
