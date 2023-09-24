@@ -12,10 +12,10 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import DownloadButton from "./DownloadPNG";
 import DownloadPNG from "./DownloadPNG";
 import DownloadJPEG from "./DownloadJPEG";
 import DownloadSVG from "./DownloadSVG";
+import DownloadAnimatedSVG from "./DownloadAnimatedSVG";
 
 export default function MainMenu(): ReactElement {
   return (
@@ -32,11 +32,14 @@ export default function MainMenu(): ReactElement {
               <DropdownMenuSubTrigger>Download</DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent className="w-56 w-30 bg-gray-700 text-white rounded-lg mt-2 py-3 px-2 cursor-pointer">
-                  <DropdownMenuItem className="hover:bg-gray-600">
+                  <DropdownMenuItem className="hover:bg-gray-600 w-full">
                     <DownloadSVG />
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <DownloadPNG />
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="hover:bg-gray-600">
+                    <DownloadAnimatedSVG />
                   </DropdownMenuItem>
                   <DropdownMenuItem className="hover:bg-gray-600">
                     <DownloadJPEG />
