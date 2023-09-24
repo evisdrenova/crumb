@@ -1,15 +1,5 @@
 import { ReactElement, useState } from "react";
 import React from "react";
-import {
-  Panel,
-  useReactFlow,
-  getRectOfNodes,
-  getTransformForBounds,
-  Node,
-} from "reactflow";
-import { toPng, toSvg } from "html-to-image";
-import html2canvas from "html2canvas";
-import { documentToSVG, elementToSVG, inlineResources } from "dom-to-svg";
 
 //https://github.com/bubkoo/html-to-image
 
